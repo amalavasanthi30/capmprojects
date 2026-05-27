@@ -1,0 +1,2 @@
+Patient_Id,Patient_name,Gender,Age,Blood_group,Address,contact_No,Emergency_Contact,Status,RepID_Receptionist_Id
+Pa01,Hima,Female,23,O+,Chennai,8909678909,9600729756,admitted,Re01

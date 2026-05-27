@@ -1,0 +1,36 @@
+{
+  "name": "sidebysideTask1",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "dependencies": {
+    "@sap-cloud-sdk/connectivity": "^4",
+    "@sap-cloud-sdk/http-client": "^4",
+    "@sap-cloud-sdk/resilience": "^4",
+    "@sap/cds": "^9",
+    "express": "^4",
+    "sqlite": "^5.1.1"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^2"
+  },
+  "scripts": {
+    "start": "cds-serve"
+  },
+  "private": true,
+  "cds": {
+    "requires": {
+      "API_BUS_SOLUTION_ORDER_SRV": {
+        "kind": "odata-v2",
+        "model": "srv/external/API_BUS_SOLUTION_ORDER_SRV",
+        "[sandbox]": {
+          "credentials": {
+            "url": "https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUS_SOLUTION_ORDER_SRV",
+            "headers": {
+              "APIKey": "NOTHDWY6hGISxADjUDhqHbO6EAbbCne6"
+            }
+          }
+        }
+      }
+    }
+  }
+}

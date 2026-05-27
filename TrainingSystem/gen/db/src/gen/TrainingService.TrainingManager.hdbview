@@ -1,0 +1,7 @@
+VIEW TrainingService_TrainingManager AS SELECT
+  TrainingManager_0.Tid,
+  TrainingManager_0.Trainername,
+  TrainingManager_0.Email,
+  TrainingManager_0.Phone,
+  TrainingManager_0.Experienceyear
+FROM schema_TrainingManager AS TrainingManager_0

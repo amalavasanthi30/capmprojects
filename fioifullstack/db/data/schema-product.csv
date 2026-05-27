@@ -1,0 +1,9 @@
+id,name,description,image,price,stockquantity,category
+p01,Wireless Mouse,Ergonomic wireless mouse with USB receiver,https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7,799,25,Electronics
+p02,Bluetooth Speaker,Portable speaker with deep bass,https://images.unsplash.com/photo-1589003077984-894e133dabab,1499,18,Electronics
+p03,Office Chair,Comfortable ergonomic office chair,https://images.unsplash.com/photo-1580480055273-228ff5388ef8,5999,10,Furniture
+p04,Water Bottle,1L stainless steel water bottle,https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=600&q=80,499,40,Kitchen
+p05,Running Shoes,Lightweight sports running shoes,https://images.unsplash.com/photo-1542291026-7eec264c27ff,2499,15,Fashion
+p06,Smart Watch,Fitness tracking smartwatch,https://images.unsplash.com/photo-1523275335684-37898b6baf30,3999,12,Electronics
+p07,Backpack,Travel backpack with laptop compartment,https://images.unsplash.com/photo-1553062407-98eeb64c6a62,1299,20,Accessories
+

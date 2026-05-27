@@ -1,0 +1,6 @@
+COLUMN TABLE schema_Roles (
+  Rid NVARCHAR(36) NOT NULL,
+  Rolename NVARCHAR(5000),
+  Description NVARCHAR(5000),
+  PRIMARY KEY(Rid)
+)

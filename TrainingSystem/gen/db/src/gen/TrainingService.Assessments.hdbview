@@ -1,0 +1,8 @@
+VIEW TrainingService_Assessments AS SELECT
+  Assessments_0.Aid,
+  Assessments_0.Assessmentname,
+  Assessments_0.Totalmark,
+  Assessments_0.MarksObtained,
+  Assessments_0.Passingmark,
+  Assessments_0.enrollmentRef_Enid
+FROM schema_Assessments AS Assessments_0

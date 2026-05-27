@@ -1,0 +1,5 @@
+id,name,age,criticality,tRef_id,sRef_id
+s01,amala,13,1,t01,sc01
+s02,vasanthi,14,1,t02,sc02
+s03,sharanya devi,21,3,t03,sc02
+s04,viyana,34,3,t04,sc03

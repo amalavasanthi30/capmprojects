@@ -1,0 +1,50 @@
+{
+  "name": "TrainingSystem",
+  "version": "1.0.0",
+  "dependencies": {
+    "@cap-js/hana": "^2.8.0",
+    "@sap-cloud-sdk/core": "^1.54.2",
+    "@sap-cloud-sdk/http-client": "^4.7.0",
+    "@sap-cloud-sdk/resilience": "^4.7.0",
+    "@sap/cds": "^9",
+    "@sap/xssec": "^4"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^2.4",
+    "@sap/cds-dk": "^9"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "watch-project1": "cds watch --open project1/index.html?sap-ui-xx-viewCache=false --livereload false",
+    "watch-trainingmanager": "cds watch --open trainingmanager/index.html?sap-ui-xx-viewCache=false --livereload false",
+    "watch-employeelearningportal": "cds watch --open employeelearningportal/index.html?sap-ui-xx-viewCache=false --livereload false"
+  },
+  "private": true,
+  "sapux": [
+    "app/project1",
+    "app/trainingmanager",
+    "app/employeelearningportal",
+    "app/employeelearningportal",
+    "app/employeelearningportal",
+    "app/employeelearningportal"
+  ],
+  "cds": {
+    "requires": {
+      "[production]": {
+        "auth": "xsuaa"
+      },
+      "openstreetmap": {
+        "kind": "rest",
+        "credentials": {
+          "destination": "openstreetmap"
+        }
+      },
+      "destinations": true,
+      "html5-repo": true,
+      "workzone": true
+    }
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

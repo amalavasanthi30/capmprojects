@@ -1,0 +1,13 @@
+VIEW TrainingService_Employees AS SELECT
+  Employees_0.Eid,
+  Employees_0.Empno,
+  Employees_0.Name,
+  Employees_0.Email,
+  Employees_0.Phone,
+  Employees_0.Joiningdate,
+  Employees_0.Image,
+  Employees_0.Pincode,
+  Employees_0.Mapurl,
+  Employees_0.departmentRef_Did,
+  Employees_0.roleRef_Rid
+FROM schema_Employees AS Employees_0

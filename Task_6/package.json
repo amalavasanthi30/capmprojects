@@ -1,0 +1,29 @@
+{
+  "name": "Task_6",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "dependencies": {
+    "@sap-cloud-sdk/resilience": "^4.5.1",
+    "@sap/cds": "^9",
+    "@sap/xssec": "^4",
+    "express": "^4",
+    "node-fetch": "^2.7.0",
+    "sqlite": "^5.1.1"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^2",
+    "@sap/cds-dk": "^9"
+  },
+  "scripts": {
+    "start": "cds-serve"
+  },
+  "private": true,
+  "cds": {
+    "requires": {
+      "auth": {
+        "kind": "mocked"
+      }
+      }
+    }
+  }
+

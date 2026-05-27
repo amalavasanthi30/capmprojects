@@ -1,0 +1,70 @@
+_schema-version: 3.3.0
+ID: Task_6
+version: 1.0.0
+description: "A simple CAP project."
+parameters:
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm ci
+        - npx cds build --production
+modules:
+  - name: Task_6-srv
+    type: nodejs
+    path: gen/srv
+    parameters:
+      instances: 1
+      buildpack: nodejs_buildpack
+    build-parameters:
+      builder: npm-ci
+    provides:
+      - name: srv-api # required by consumers of CAP services (e.g. approuter)
+        properties:
+          srv-url: ${default-url}
+    requires:
+      - name: Task_6-destination
+
+resources:
+  - name: Task_6-destination
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: destination
+      service-plan: lite
+
+
+# _schema-version: 3.3.0
+# ID: Task_6
+# version: 1.0.0
+# description: "A simple CAP project."
+# parameters:
+#   enable-parallel-deployments: true
+# build-parameters:
+#   before-all:
+#     - builder: custom
+#       commands:
+#         - npm ci
+#         - npx cds build --production
+# modules:
+#   - name: Task_6-srv
+#     type: nodejs
+#     path: gen/srv
+#     parameters:
+#       instances: 1
+#       buildpack: nodejs_buildpack
+#     build-parameters:
+#       builder: npm-ci
+#     provides:
+#       - name: srv-api # required by consumers of CAP services (e.g. approuter)
+#         properties:
+#           srv-url: ${default-url}
+#     requires:
+#       - name: Task_6-destination
+
+# resources:
+#   - name: Task_6-destination
+#     type: org.cloudfoundry.managed-service
+#     parameters:
+#       service: destination
+#       service-plan: lite

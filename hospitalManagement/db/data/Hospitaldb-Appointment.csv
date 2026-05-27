@@ -1,0 +1,3 @@
+Appintment_Id,Date,Time,Status,Type,Consultation_Fee,docID_Doctor_Id,PatID_Patient_Id
+App01,2026-03-12,12:00,pending,emergency,1200,Do01,Pa01
+App02,2026-03-12,08:00,pending,emergency,800,Do01,Pa02

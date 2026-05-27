@@ -1,0 +1,37 @@
+{
+  "name": "mapDestination",
+  "version": "1.0.0",
+  "dependencies": {
+    "@cap-js/hana": "^2",
+    "@sap/cds": "^9.8.5",
+    "@sap/xssec": "^4",
+    "sqlite": "^5.1.1"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^2",
+    "@sap/cds-dk": "^9"
+  },
+  "scripts": {
+    "start": "cds-serve"
+  },
+  "private": true,
+  "cds": {
+    "Country": {
+      "kind": "odata-v4",
+      "credentials": {
+        "destination": "CountryApi"
+      }
+    },
+    "weatherApi": {
+      "kind": "odata-v4",
+      "credentials": {
+        "destination": "Address_Api"
+      }
+    },
+    "requires": {
+      "auth": {
+        "kind": "mocked"
+      }
+    }
+  }
+}

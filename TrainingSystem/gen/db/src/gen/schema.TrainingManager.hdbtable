@@ -1,0 +1,8 @@
+COLUMN TABLE schema_TrainingManager (
+  Tid NVARCHAR(36) NOT NULL,
+  Trainername NVARCHAR(5000),
+  Email NVARCHAR(5000),
+  Phone NVARCHAR(5000),
+  Experienceyear INTEGER,
+  PRIMARY KEY(Tid)
+)

@@ -1,0 +1,3 @@
+Doctor_Id,Doctor_name,Specialisation,Experience,Contant_No,Status,DeptID_Department_Id
+Do01,sharanya,Cardiologist,6,6789234567,active,De01
+Do02,anitha,Cardiologist,5,9600736789,active,De01

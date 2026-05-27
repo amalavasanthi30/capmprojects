@@ -1,0 +1,40 @@
+{
+<<<<<<< HEAD
+  "name": "Translation_Hub",
+=======
+  "name": "Translation_hub",
+>>>>>>> e3f906d (inserted)
+  "version": "1.0.0",
+  "dependencies": {
+    "@sap-cloud-sdk/connectivity": "^4.6.0",
+    "@sap-cloud-sdk/http-client": "^4.6.0",
+    "@sap-cloud-sdk/resilience": "^4.6.0",
+<<<<<<< HEAD
+    "@sap/cds": "^9"
+=======
+    "@sap/cds": "^9",
+    "sqlite": "^5.1.1"
+>>>>>>> e3f906d (inserted)
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^2"
+  },
+  "scripts": {
+    "start": "cds-serve"
+  },
+  "private": true,
+  "cds": {
+    "requires": {
+      "translate": {
+        "kind": "odata-v2",
+        "credentials": {
+<<<<<<< HEAD
+          "destination": "Translation_Hub_Destination"
+=======
+          "destination":"Translation_hub_destintaion"
+>>>>>>> e3f906d (inserted)
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,3487 @@
+{
+  "namespace": "schema",
+  "definitions": {
+    "schema.Employees": {
+      "kind": "entity",
+      "elements": {
+        "Eid": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Empno": {
+          "type": "cds.String"
+        },
+        "Name": {
+          "type": "cds.String"
+        },
+        "Email": {
+          "type": "cds.String"
+        },
+        "Phone": {
+          "type": "cds.String"
+        },
+        "Joiningdate": {
+          "type": "cds.Date"
+        },
+        "Image": {
+          "type": "cds.String"
+        },
+        "Pincode": {
+          "type": "cds.String"
+        },
+        "Mapurl": {
+          "type": "cds.String"
+        },
+        "departmentRef": {
+          "type": "cds.Association",
+          "target": "schema.Departments",
+          "keys": [
+            {
+              "ref": [
+                "Did"
+              ]
+            }
+          ]
+        },
+        "roleRef": {
+          "type": "cds.Association",
+          "target": "schema.Roles",
+          "keys": [
+            {
+              "ref": [
+                "Rid"
+              ]
+            }
+          ]
+        },
+        "enrollmentRef": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "schema.Enrollments",
+          "on": [
+            {
+              "ref": [
+                "enrollmentRef",
+                "employeeRef"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "notificationRef": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "schema.Notifications",
+          "on": [
+            {
+              "ref": [
+                "notificationRef",
+                "employeeRef"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "schema.Roles": {
+      "kind": "entity",
+      "elements": {
+        "Rid": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Rolename": {
+          "type": "cds.String"
+        },
+        "Description": {
+          "type": "cds.String"
+        },
+        "employeeRef": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "schema.Employees",
+          "on": [
+            {
+              "ref": [
+                "employeeRef",
+                "roleRef"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "schema.Departments": {
+      "kind": "entity",
+      "elements": {
+        "Did": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Deptcode": {
+          "type": "cds.String"
+        },
+        "Deptname": {
+          "type": "cds.String"
+        },
+        "employeeRef": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "schema.Employees",
+          "on": [
+            {
+              "ref": [
+                "employeeRef",
+                "departmentRef"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "schema.TrainingManager": {
+      "kind": "entity",
+      "elements": {
+        "Tid": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Trainername": {
+          "type": "cds.String"
+        },
+        "Email": {
+          "type": "cds.String"
+        },
+        "Phone": {
+          "type": "cds.String"
+        },
+        "Experienceyear": {
+          "type": "cds.Integer"
+        },
+        "courseRef": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "schema.Courses",
+          "on": [
+            {
+              "ref": [
+                "courseRef",
+                "trainingmanagerRef"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "schema.Courses": {
+      "kind": "entity",
+      "elements": {
+        "Cid": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Coursecode": {
+          "type": "cds.String"
+        },
+        "Title": {
+          "type": "cds.String"
+        },
+        "Description": {
+          "type": "cds.String"
+        },
+        "Category": {
+          "@assert.range": true,
+          "type": "cds.String",
+          "enum": {
+            "Technical": {},
+            "Functional": {},
+            "Compliance": {},
+            "Security": {},
+            "Leadership": {},
+            "SoftSkills": {}
+          }
+        },
+        "Durationhour": {
+          "type": "cds.Integer"
+        },
+        "Ismandatory": {
+          "type": "cds.Boolean"
+        },
+        "Validitymonth": {
+          "type": "cds.Integer"
+        },
+        "Maxenrollment": {
+          "type": "cds.Integer"
+        },
+        "trainingmanagerRef": {
+          "type": "cds.Association",
+          "target": "schema.TrainingManager",
+          "keys": [
+            {
+              "ref": [
+                "Tid"
+              ]
+            }
+          ]
+        },
+        "enrollmentRef": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "schema.Enrollments",
+          "on": [
+            {
+              "ref": [
+                "enrollmentRef",
+                "courseRef"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "schema.Enrollments": {
+      "kind": "entity",
+      "includes": [
+        "managed"
+      ],
+      "elements": {
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "Enid": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Enrollmentdate": {
+          "type": "cds.Date"
+        },
+        "Completiondate": {
+          "type": "cds.Date"
+        },
+        "Score": {
+          "type": "cds.Integer"
+        },
+        "Status": {
+          "@assert.range": true,
+          "type": "cds.String",
+          "enum": {
+            "Enrolled": {},
+            "InProgress": {},
+            "Completed": {},
+            "Certified": {},
+            "Failed": {},
+            "Revoked": {}
+          }
+        },
+        "Reason": {
+          "type": "cds.String"
+        },
+        "Result": {
+          "@assert.range": true,
+          "type": "cds.String",
+          "enum": {
+            "Pass": {},
+            "Fail": {}
+          }
+        },
+        "CertificateNo": {
+          "type": "cds.String"
+        },
+        "ExpiryDate": {
+          "type": "cds.Date"
+        },
+        "expiryCriticality": {
+          "type": "cds.Integer"
+        },
+        "criticality": {
+          "type": "cds.Integer"
+        },
+        "TotalEnrollments": {
+          "@Core.Computed": true,
+          "virtual": true,
+          "type": "cds.Integer"
+        },
+        "Certifiedcount": {
+          "@Core.Computed": true,
+          "virtual": true,
+          "type": "cds.Integer"
+        },
+        "Rate": {
+          "@Core.Computed": true,
+          "virtual": true,
+          "type": "cds.Integer"
+        },
+        "employeeRef": {
+          "type": "cds.Association",
+          "target": "schema.Employees",
+          "keys": [
+            {
+              "ref": [
+                "Eid"
+              ]
+            }
+          ]
+        },
+        "courseRef": {
+          "type": "cds.Association",
+          "target": "schema.Courses",
+          "keys": [
+            {
+              "ref": [
+                "Cid"
+              ]
+            }
+          ]
+        },
+        "feedbackRef": {
+          "type": "cds.Composition",
+          "target": "schema.Feedback",
+          "on": [
+            {
+              "ref": [
+                "feedbackRef",
+                "enrollmentRef"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "assessmentRef": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "schema.Assessments",
+          "on": [
+            {
+              "ref": [
+                "assessmentRef",
+                "enrollmentRef"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "schema.Assessments": {
+      "kind": "entity",
+      "elements": {
+        "Aid": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Assessmentname": {
+          "type": "cds.String"
+        },
+        "Totalmark": {
+          "type": "cds.Integer"
+        },
+        "MarksObtained": {
+          "type": "cds.Integer"
+        },
+        "Passingmark": {
+          "type": "cds.Integer"
+        },
+        "enrollmentRef": {
+          "type": "cds.Association",
+          "target": "schema.Enrollments",
+          "keys": [
+            {
+              "ref": [
+                "Enid"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "schema.Notifications": {
+      "kind": "entity",
+      "elements": {
+        "Nid": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Message": {
+          "type": "cds.String"
+        },
+        "Sentdate": {
+          "type": "cds.Timestamp"
+        },
+        "Status": {
+          "type": "cds.String"
+        },
+        "employeeRef": {
+          "type": "cds.Association",
+          "target": "schema.Employees",
+          "keys": [
+            {
+              "ref": [
+                "Eid"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "schema.Feedback": {
+      "kind": "entity",
+      "elements": {
+        "Fid": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Rating": {
+          "@assert.range": [
+            1,
+            5
+          ],
+          "type": "cds.Integer"
+        },
+        "Comments": {
+          "type": "cds.String"
+        },
+        "SubmittedAt": {
+          "type": "cds.Timestamp"
+        },
+        "enrollmentRef": {
+          "type": "cds.Association",
+          "target": "schema.Enrollments",
+          "keys": [
+            {
+              "ref": [
+                "Enid"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "TrainingService": {
+      "@source": "srv/service.cds",
+      "kind": "service",
+      "@restrict": [
+        {
+          "grant": [
+            "READ",
+            "CREATE"
+          ],
+          "to": "Employee"
+        },
+        {
+          "grant": [
+            "CREATE",
+            "READ",
+            "UPDATE"
+          ],
+          "to": "Manager"
+        },
+        {
+          "grant": [
+            "*"
+          ],
+          "to": "Administrator"
+        }
+      ]
+    },
+    "TrainingService.Employees": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "schema.Employees"
+          ]
+        }
+      },
+      "elements": {
+        "Eid": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Empno": {
+          "type": "cds.String"
+        },
+        "Name": {
+          "type": "cds.String"
+        },
+        "Email": {
+          "type": "cds.String"
+        },
+        "Phone": {
+          "type": "cds.String"
+        },
+        "Joiningdate": {
+          "type": "cds.Date"
+        },
+        "Image": {
+          "@UI.IsImageURL": true,
+          "type": "cds.String"
+        },
+        "Pincode": {
+          "type": "cds.String"
+        },
+        "Mapurl": {
+          "type": "cds.String"
+        },
+        "departmentRef": {
+          "@Common.Text": {
+            "=": "DeptName"
+          },
+          "@UI.TextArrangement": {
+            "#": "TextOnly"
+          },
+          "@Common.ValueList.$Type": "Common.ValueListType",
+          "@Common.ValueList.CollectionPath": "Departments",
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterInOut",
+              "LocalDataProperty": {
+                "=": "Did"
+              },
+              "ValueListProperty": "Did"
+            },
+            {
+              "$Type": {
+                "=": "Common.ValueListParameterDisplayOnly"
+              },
+              "ValueListProperty": "Deptname"
+            }
+          ],
+          "@Common.ValueListWithFixedValues": true,
+          "type": "cds.Association",
+          "target": "TrainingService.Departments",
+          "keys": [
+            {
+              "ref": [
+                "Did"
+              ]
+            }
+          ]
+        },
+        "roleRef": {
+          "type": "cds.Association",
+          "target": "TrainingService.Roles",
+          "keys": [
+            {
+              "ref": [
+                "Rid"
+              ]
+            }
+          ]
+        },
+        "enrollmentRef": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "TrainingService.Enrollments",
+          "on": [
+            {
+              "ref": [
+                "enrollmentRef",
+                "employeeRef"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "notificationRef": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "schema.Notifications",
+          "on": [
+            {
+              "ref": [
+                "notificationRef",
+                "employeeRef"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "TrainingService.Courses": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "schema.Courses"
+          ]
+        }
+      },
+      "elements": {
+        "Cid": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Coursecode": {
+          "type": "cds.String"
+        },
+        "Title": {
+          "type": "cds.String"
+        },
+        "Description": {
+          "type": "cds.String"
+        },
+        "Category": {
+          "@assert.range": true,
+          "type": "cds.String",
+          "enum": {
+            "Technical": {},
+            "Functional": {},
+            "Compliance": {},
+            "Security": {},
+            "Leadership": {},
+            "SoftSkills": {}
+          }
+        },
+        "Durationhour": {
+          "type": "cds.Integer"
+        },
+        "Ismandatory": {
+          "type": "cds.Boolean"
+        },
+        "Validitymonth": {
+          "type": "cds.Integer"
+        },
+        "Maxenrollment": {
+          "type": "cds.Integer"
+        },
+        "trainingmanagerRef": {
+          "type": "cds.Association",
+          "target": "TrainingService.TrainingManager",
+          "keys": [
+            {
+              "ref": [
+                "Tid"
+              ]
+            }
+          ]
+        },
+        "enrollmentRef": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "TrainingService.Enrollments",
+          "on": [
+            {
+              "ref": [
+                "enrollmentRef",
+                "courseRef"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "TrainingService.Assessments": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "schema.Assessments"
+          ]
+        }
+      },
+      "elements": {
+        "Aid": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Assessmentname": {
+          "type": "cds.String"
+        },
+        "Totalmark": {
+          "type": "cds.Integer"
+        },
+        "MarksObtained": {
+          "type": "cds.Integer"
+        },
+        "Passingmark": {
+          "type": "cds.Integer"
+        },
+        "enrollmentRef": {
+          "type": "cds.Association",
+          "target": "TrainingService.Enrollments",
+          "keys": [
+            {
+              "ref": [
+                "Enid"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "TrainingService.Departments": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "schema.Departments"
+          ]
+        }
+      },
+      "elements": {
+        "Did": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Deptcode": {
+          "type": "cds.String"
+        },
+        "Deptname": {
+          "type": "cds.String"
+        },
+        "employeeRef": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "TrainingService.Employees",
+          "on": [
+            {
+              "ref": [
+                "employeeRef",
+                "departmentRef"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "TrainingService.TrainingManager": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "schema.TrainingManager"
+          ]
+        }
+      },
+      "elements": {
+        "Tid": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Trainername": {
+          "type": "cds.String"
+        },
+        "Email": {
+          "type": "cds.String"
+        },
+        "Phone": {
+          "type": "cds.String"
+        },
+        "Experienceyear": {
+          "type": "cds.Integer"
+        },
+        "courseRef": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "TrainingService.Courses",
+          "on": [
+            {
+              "ref": [
+                "courseRef",
+                "trainingmanagerRef"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "TrainingService.Roles": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "schema.Roles"
+          ]
+        }
+      },
+      "elements": {
+        "Rid": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Rolename": {
+          "type": "cds.String"
+        },
+        "Description": {
+          "type": "cds.String"
+        },
+        "employeeRef": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "TrainingService.Employees",
+          "on": [
+            {
+              "ref": [
+                "employeeRef",
+                "roleRef"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "TrainingService.Enrollments": {
+      "kind": "entity",
+      "@odata.draft.enabled": true,
+      "@cds.redirection.target": true,
+      "@restrict": [
+        {
+          "grant": [
+            "READ",
+            "CREATE"
+          ],
+          "to": "Employee"
+        },
+        {
+          "grant": [
+            "CREATE",
+            "READ",
+            "UPDATE"
+          ],
+          "to": "Manager"
+        },
+        {
+          "grant": [
+            "*"
+          ],
+          "to": "Administrator"
+        }
+      ],
+      "@UI.FieldGroup#GeneratedGroup.$Type": "UI.FieldGroupType",
+      "@UI.FieldGroup#GeneratedGroup.Data": [
+        {
+          "$Type": "UI.DataField",
+          "Label": "Enrollmentdate",
+          "Value": {
+            "=": "Enrollmentdate"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Enrollmentdate",
+          "Value": {
+            "=": "TotalEnrollments"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Courseid",
+          "Value": {
+            "=": "courseRef_Cid"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Employeeid",
+          "Value": {
+            "=": "employeeRef_Eid"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Completiondate",
+          "Value": {
+            "=": "Completiondate"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Score",
+          "Value": {
+            "=": "Score"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Status",
+          "Value": {
+            "=": "Status"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Result",
+          "Value": {
+            "=": "Result"
+          },
+          "Criticality": {
+            "=": "criticality"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "CertificateNo",
+          "Value": {
+            "=": "CertificateNo"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "ExpiryDate",
+          "Value": {
+            "=": "ExpiryDate"
+          }
+        }
+      ],
+      "@UI.DataPoint#TotalEnrollmentKPI.Title": "Total Enrollments",
+      "@UI.DataPoint#TotalEnrollmentKPI.Value": {
+        "=": "TotalEnrollments"
+      },
+      "@UI.DataPoint#TotalEnrollmentKPI.Criticality": {
+        "#": "Negative"
+      },
+      "@UI.DataPoint#CertifiedKPI.Title": "Certified Count",
+      "@UI.DataPoint#CertifiedKPI.Value": {
+        "=": "Certifiedcount"
+      },
+      "@UI.DataPoint#CertifiedKPI.Criticality": {
+        "#": "Negative"
+      },
+      "@UI.HeaderFacets": [
+        {
+          "$Type": "UI.ReferenceFacet",
+          "Label": "Total Enrollments",
+          "Target": "@UI.DataPoint#TotalEnrollmentKPI"
+        },
+        {
+          "$Type": "UI.ReferenceFacet",
+          "Label": "Certified Count",
+          "Target": "@UI.DataPoint#CertifiedKPI"
+        }
+      ],
+      "@UI.HeaderInfo.Title.Value": {
+        "=": "employeeRef.Name"
+      },
+      "@UI.HeaderInfo.ImageUrl": {
+        "=": "employeeRef.Image"
+      },
+      "@UI.SelectionFields": [
+        {
+          "=": "Enid"
+        },
+        {
+          "=": "employeeRef.departmentRef_Did"
+        }
+      ],
+      "@UI.FieldGroup#CourseDetails.$Type": "UI.FieldGroupType",
+      "@UI.FieldGroup#CourseDetails.Data": [
+        {
+          "$Type": "UI.DataField",
+          "Label": "Course Id",
+          "Value": {
+            "=": "courseRef.Cid"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Course Code",
+          "Value": {
+            "=": "courseRef.Coursecode"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Title",
+          "Value": {
+            "=": "courseRef.Title"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Description",
+          "Value": {
+            "=": "courseRef.Description"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Category",
+          "Value": {
+            "=": "courseRef.Category"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Duration Hour",
+          "Value": {
+            "=": "courseRef.Durationhour"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Mandatory",
+          "Value": {
+            "=": "courseRef.Ismandatory"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Validity Month",
+          "Value": {
+            "=": "courseRef.Validitymonth"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Max Enrollment",
+          "Value": {
+            "=": "courseRef.Maxenrollment"
+          }
+        }
+      ],
+      "@UI.FieldGroup#FeedbackDetails.$Type": "UI.FieldGroupType",
+      "@UI.FieldGroup#FeedbackDetails.Data": [
+        {
+          "$Type": "UI.DataField",
+          "Label": "Feedback Id",
+          "Value": {
+            "=": "feedbackRef.Fid"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Comments",
+          "Value": {
+            "=": "feedbackRef.Comments"
+          }
+        },
+        {
+          "$Type": "UI.DataFieldForAnnotation",
+          "Label": "Rating",
+          "Value": {
+            "=": "feedbackRef.Rating"
+          },
+          "Target": "@UI.DataPoint#Ratings"
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "SubmittedAt",
+          "Value": {
+            "=": "feedbackRef.SubmittedAt"
+          }
+        }
+      ],
+      "@UI.FieldGroup#EmployeeDetails.$Type": "UI.FieldGroupType",
+      "@UI.FieldGroup#EmployeeDetails.Data": [
+        {
+          "$Type": "UI.DataField",
+          "Label": "EmpoyeeId",
+          "Value": {
+            "=": "employeeRef.Eid"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Employeename",
+          "Value": {
+            "=": "employeeRef.Name"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Employeeimage",
+          "Value": {
+            "=": "employeeRef.Image"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Email",
+          "Value": {
+            "=": "employeeRef.Email"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Phone",
+          "Value": {
+            "=": "employeeRef.Phone"
+          }
+        }
+      ],
+      "@UI.Facets": [
+        {
+          "$Type": "UI.ReferenceFacet",
+          "ID": "GeneratedFacet1",
+          "Label": "Enrollment Information",
+          "Target": "@UI.FieldGroup#GeneratedGroup"
+        },
+        {
+          "$Type": "UI.ReferenceFacet",
+          "ID": "GeneratedFacet2",
+          "Label": "Course Details",
+          "Target": "@UI.FieldGroup#CourseDetails"
+        },
+        {
+          "$Type": "UI.ReferenceFacet",
+          "ID": "GeneratedFacet3",
+          "Label": "Feedback Details",
+          "Target": "@UI.FieldGroup#FeedbackDetails"
+        },
+        {
+          "$Type": "UI.ReferenceFacet",
+          "ID": "GeneratedFacet4",
+          "Label": "Employee Details",
+          "Target": "@UI.FieldGroup#EmployeeDetails"
+        }
+      ],
+      "@UI.DataPoint#Ratings.Value": {
+        "=": "feedbackRef.Rating"
+      },
+      "@UI.DataPoint#Ratings.Visualization": {
+        "#": "Rating"
+      },
+      "@UI.DataPoint#Ratings.@HTML5.CssDefaults.width": "150px",
+      "@UI.LineItem": [
+        {
+          "$Type": "UI.DataField",
+          "Label": "Employeename",
+          "Value": {
+            "=": "employeeRef.Name"
+          },
+          "@HTML5.CssDefaults": {
+            "width": "100px"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Coursename",
+          "Value": {
+            "=": "courseRef.Title"
+          },
+          "@HTML5.CssDefaults": {
+            "width": "150px"
+          }
+        },
+        {
+          "$Type": "UI.DataFieldForAnnotation",
+          "Label": "Rating",
+          "Target": "@UI.DataPoint#Ratings",
+          "Value": {
+            "=": "feedbackRef.Rating"
+          },
+          "@HTML5.CssDefaults": {
+            "width": "150px"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Status",
+          "Value": {
+            "=": "Status"
+          },
+          "@HTML5.CssDefaults": {
+            "width": "90px"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Result",
+          "Value": {
+            "=": "Result"
+          },
+          "Criticality": {
+            "=": "criticality"
+          },
+          "@HTML5.CssDefaults": {
+            "width": "90px"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Department",
+          "Value": {
+            "=": "employeeRef.departmentRef.Deptname"
+          },
+          "@HTML5.CssDefaults": {
+            "width": "150px"
+          }
+        },
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "TrainingService.EntityContainer/getExpiringCertificate",
+          "Label": "getExpiringCertificate"
+        },
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "TrainingService.startTraining",
+          "Inline": true,
+          "Criticality": {
+            "#": "Negative"
+          },
+          "Label": "startTraining"
+        },
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "TrainingService.EntityContainer/createAssessment",
+          "Label": "createAssessment"
+        },
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "TrainingService.findscore",
+          "Inline": true,
+          "Criticality": {
+            "#": "Negative"
+          },
+          "Label": "findscore"
+        },
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "TrainingService.complete",
+          "Inline": true,
+          "Criticality": {
+            "#": "Negative"
+          },
+          "Label": "complete"
+        },
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "TrainingService.EntityContainer/createCourse",
+          "Label": "createCourse"
+        },
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "TrainingService.EntityContainer/deleteCourse",
+          "Label": "deleteeCourse"
+        },
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "TrainingService.EntityContainer/updateCourse",
+          "Label": "updateCourse"
+        },
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "TrainingService.EntityContainer/deleteCourse",
+          "Label": "deleteCourse"
+        },
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "TrainingService.EntityContainer/readCourse",
+          "Label": "readCourse"
+        }
+      ],
+      "projection": {
+        "from": {
+          "ref": [
+            "schema.Enrollments"
+          ]
+        }
+      },
+      "elements": {
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "Enid": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Enrollmentdate": {
+          "type": "cds.Date"
+        },
+        "Completiondate": {
+          "type": "cds.Date"
+        },
+        "Score": {
+          "type": "cds.Integer"
+        },
+        "Status": {
+          "@assert.range": true,
+          "type": "cds.String",
+          "enum": {
+            "Enrolled": {},
+            "InProgress": {},
+            "Completed": {},
+            "Certified": {},
+            "Failed": {},
+            "Revoked": {}
+          }
+        },
+        "Reason": {
+          "type": "cds.String"
+        },
+        "Result": {
+          "@assert.range": true,
+          "type": "cds.String",
+          "enum": {
+            "Pass": {},
+            "Fail": {}
+          }
+        },
+        "CertificateNo": {
+          "type": "cds.String"
+        },
+        "ExpiryDate": {
+          "type": "cds.Date"
+        },
+        "expiryCriticality": {
+          "type": "cds.Integer"
+        },
+        "criticality": {
+          "type": "cds.Integer"
+        },
+        "TotalEnrollments": {
+          "@Core.Computed": true,
+          "virtual": true,
+          "type": "cds.Integer"
+        },
+        "Certifiedcount": {
+          "@Core.Computed": true,
+          "virtual": true,
+          "type": "cds.Integer"
+        },
+        "Rate": {
+          "@Core.Computed": true,
+          "virtual": true,
+          "type": "cds.Integer"
+        },
+        "employeeRef": {
+          "@Common.ValueList.Type": "Common.ValueListType",
+          "@Common.ValueList.CollectionPath": "Employees",
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterInOut",
+              "LocalDataProperty": {
+                "=": "employeeRef_Eid"
+              },
+              "ValueListProperty": "Eid"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "Empno"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "Name"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "Email"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "Phone"
+            }
+          ],
+          "type": "cds.Association",
+          "target": "TrainingService.Employees",
+          "keys": [
+            {
+              "ref": [
+                "Eid"
+              ]
+            }
+          ]
+        },
+        "courseRef": {
+          "@Common.ValueList.$Type": "Common.ValueListType",
+          "@Common.ValueList.CollectionPath": "Courses",
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterInOut",
+              "LocalDataProperty": {
+                "=": "courseRef_Cid"
+              },
+              "ValueListProperty": "Cid"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "Coursecode"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "Title"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "Description"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "Category"
+            }
+          ],
+          "type": "cds.Association",
+          "target": "TrainingService.Courses",
+          "keys": [
+            {
+              "ref": [
+                "Cid"
+              ]
+            }
+          ]
+        },
+        "feedbackRef": {
+          "type": "cds.Composition",
+          "target": "TrainingService.Feedback",
+          "on": [
+            {
+              "ref": [
+                "feedbackRef",
+                "enrollmentRef"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "assessmentRef": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "TrainingService.Assessments",
+          "on": [
+            {
+              "ref": [
+                "assessmentRef",
+                "enrollmentRef"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      },
+      "actions": {
+        "findscore": {
+          "kind": "action"
+        },
+        "startTraining": {
+          "kind": "action"
+        },
+        "complete": {
+          "kind": "action",
+          "@Common.SideEffects.TargetProperties": [
+            "Status",
+            "Result"
+          ],
+          "params": {
+            "Score": {
+              "type": "cds.Integer"
+            }
+          },
+          "returns": {
+            "type": "cds.String"
+          }
+        }
+      }
+    },
+    "TrainingService.revoke": {
+      "kind": "action",
+      "params": {
+        "Enid": {
+          "type": "cds.UUID"
+        },
+        "Reason": {
+          "type": "cds.String"
+        }
+      }
+    },
+    "TrainingService.getExpiringCertificate": {
+      "kind": "function",
+      "params": {
+        "daysAhead": {
+          "type": "cds.Integer"
+        }
+      },
+      "returns": {
+        "items": {
+          "type": "TrainingService.Enrollments"
+        }
+      }
+    },
+    "TrainingService.createAssessment": {
+      "kind": "action",
+      "params": {
+        "Assessmentname": {
+          "type": "cds.String"
+        },
+        "Totalmark": {
+          "type": "cds.Integer"
+        },
+        "MarksObtained": {
+          "type": "cds.Integer"
+        },
+        "Passingmark": {
+          "type": "cds.Integer"
+        },
+        "enrollmentRef_Enid": {
+          "type": "cds.UUID"
+        }
+      },
+      "returns": {
+        "type": "TrainingService.Assessments"
+      }
+    },
+    "TrainingService.createCourse": {
+      "kind": "action",
+      "params": {
+        "Coursecode": {
+          "type": "cds.String"
+        },
+        "Title": {
+          "type": "cds.String"
+        },
+        "Description": {
+          "type": "cds.String"
+        },
+        "Category": {
+          "type": "cds.String"
+        },
+        "Durationhour": {
+          "type": "cds.Integer"
+        },
+        "Ismandatory": {
+          "type": "cds.Boolean"
+        },
+        "Validitymonth": {
+          "type": "cds.Integer"
+        },
+        "Maxenrollment": {
+          "type": "cds.Integer"
+        }
+      }
+    },
+    "TrainingService.updateCourse": {
+      "kind": "action",
+      "params": {
+        "Cid": {
+          "type": "cds.UUID"
+        },
+        "Coursecode": {
+          "type": "cds.String"
+        },
+        "Title": {
+          "type": "cds.String"
+        },
+        "Description": {
+          "type": "cds.String"
+        },
+        "Category": {
+          "type": "cds.String"
+        },
+        "Durationhour": {
+          "type": "cds.Integer"
+        },
+        "Ismandatory": {
+          "type": "cds.Boolean"
+        },
+        "Validitymonth": {
+          "type": "cds.Integer"
+        },
+        "Maxenrollment": {
+          "type": "cds.Integer"
+        }
+      }
+    },
+    "TrainingService.deleteCourse": {
+      "kind": "action",
+      "params": {
+        "Cid": {
+          "type": "cds.UUID"
+        }
+      }
+    },
+    "TrainingService.readCourse": {
+      "kind": "action",
+      "params": {
+        "Cid": {
+          "type": "cds.UUID"
+        }
+      }
+    },
+    "FeedbackService": {
+      "@source": "srv/service.cds",
+      "kind": "service",
+      "@impl": "./feedbackservice.js"
+    },
+    "FeedbackService.Courses": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "schema.Courses"
+          ]
+        }
+      },
+      "elements": {
+        "Cid": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Coursecode": {
+          "type": "cds.String"
+        },
+        "Title": {
+          "type": "cds.String"
+        },
+        "Description": {
+          "type": "cds.String"
+        },
+        "Category": {
+          "@assert.range": true,
+          "type": "cds.String",
+          "enum": {
+            "Technical": {},
+            "Functional": {},
+            "Compliance": {},
+            "Security": {},
+            "Leadership": {},
+            "SoftSkills": {}
+          }
+        },
+        "Durationhour": {
+          "type": "cds.Integer"
+        },
+        "Ismandatory": {
+          "type": "cds.Boolean"
+        },
+        "Validitymonth": {
+          "type": "cds.Integer"
+        },
+        "Maxenrollment": {
+          "type": "cds.Integer"
+        },
+        "trainingmanagerRef": {
+          "type": "cds.Association",
+          "target": "schema.TrainingManager",
+          "keys": [
+            {
+              "ref": [
+                "Tid"
+              ]
+            }
+          ]
+        },
+        "enrollmentRef": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "FeedbackService.Enrollments",
+          "on": [
+            {
+              "ref": [
+                "enrollmentRef",
+                "courseRef"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "FeedbackService.Feedback": {
+      "kind": "entity",
+      "@UI.FieldGroup#GeneratedGroup5.$Type": "UI.FieldGroupType",
+      "@UI.FieldGroup#GeneratedGroup5.Data": [
+        {
+          "$Type": "UI.DataFieldForAnnotation",
+          "Label": "Rating",
+          "Target": "@UI.DataPoint#Ratings",
+          "Value": {
+            "=": "Rating"
+          },
+          "@HTML5.CssDefaults": {
+            "width": "150px"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Comment",
+          "Value": {
+            "=": "Comments"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Submitted At",
+          "Value": {
+            "=": "SubmittedAt"
+          }
+        },
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Label": "Submitfeedback",
+          "Action": "FeedbackService.EntityContainer/submitFeedback",
+          "Criticality": {
+            "#": "Negative"
+          }
+        }
+      ],
+      "@UI.DataPoint#Ratings.Value": {
+        "=": "Rating"
+      },
+      "@UI.DataPoint#Ratings.Visualization": {
+        "#": "Rating"
+      },
+      "projection": {
+        "from": {
+          "ref": [
+            "schema.Feedback"
+          ]
+        }
+      },
+      "elements": {
+        "Fid": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Rating": {
+          "@assert.range": [
+            1,
+            5
+          ],
+          "type": "cds.Integer"
+        },
+        "Comments": {
+          "type": "cds.String"
+        },
+        "SubmittedAt": {
+          "type": "cds.Timestamp"
+        },
+        "enrollmentRef": {
+          "type": "cds.Association",
+          "target": "FeedbackService.Enrollments",
+          "keys": [
+            {
+              "ref": [
+                "Enid"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "FeedbackService.Employees": {
+      "kind": "entity",
+      "@UI.FieldGroup#GeneratedGroup.$Type": "UI.FieldGroupType",
+      "@UI.FieldGroup#GeneratedGroup.Data": [
+        {
+          "$Type": "UI.DataField",
+          "Label": "Employeeid",
+          "Value": {
+            "=": "Eid"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Empno",
+          "Value": {
+            "=": "Empno"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Name",
+          "Value": {
+            "=": "Name"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Email",
+          "Value": {
+            "=": "Email"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Pincode",
+          "Value": {
+            "=": "Pincode"
+          }
+        },
+        {
+          "$Type": "UI.DataFieldWithUrl",
+          "Label": "Map",
+          "Value": "Open Google Map",
+          "Url": {
+            "=": "Mapurl"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Phone",
+          "Value": {
+            "=": "Phone"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Joiningdate",
+          "Value": {
+            "=": "Joiningdate"
+          }
+        }
+      ],
+      "@UI.SelectionFields": [
+        {
+          "=": "Empno"
+        },
+        {
+          "=": "Name"
+        }
+      ],
+      "@UI.HeaderInfo.Title.Value": {
+        "=": "Name"
+      },
+      "@UI.HeaderInfo.ImageUrl": {
+        "=": "Image"
+      },
+      "@UI.Facets": [
+        {
+          "$Type": "UI.ReferenceFacet",
+          "ID": "GeneratedFacet1",
+          "Label": "General Information",
+          "Target": "@UI.FieldGroup#GeneratedGroup"
+        },
+        {
+          "$Type": "UI.ReferenceFacet",
+          "ID": "GeneratedFacet3",
+          "Label": "Enrollment Information",
+          "Target": "enrollmentRef/@UI.LineItem#Enrollments"
+        }
+      ],
+      "@UI.LineItem": [
+        {
+          "$Type": "UI.DataField",
+          "Label": "Empno",
+          "Value": {
+            "=": "Empno"
+          },
+          "@HTML5.CssDefaults": {
+            "width": "90px"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Name",
+          "Value": {
+            "=": "Name"
+          },
+          "@HTML5.CssDefaults": {
+            "width": "90px"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Email",
+          "Value": {
+            "=": "Email"
+          },
+          "@HTML5.CssDefaults": {
+            "width": "150px"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Image",
+          "Value": {
+            "=": "Image"
+          },
+          "@HTML5.CssDefaults": {
+            "width": "100px"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Phone",
+          "Value": {
+            "=": "Phone"
+          },
+          "@HTML5.CssDefaults": {
+            "width": "100px"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Joiningdate",
+          "Value": {
+            "=": "Joiningdate"
+          },
+          "@HTML5.CssDefaults": {
+            "width": "100px"
+          }
+        },
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "FeedbackService.EntityContainer/enroll",
+          "Label": "enroll"
+        },
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "FeedbackService.EntityContainer/GetLocationbyPincode",
+          "Label": "GetLocation",
+          "Inline": true,
+          "Criticality": {
+            "#": "Negative"
+          }
+        }
+      ],
+      "projection": {
+        "from": {
+          "ref": [
+            "schema.Employees"
+          ]
+        }
+      },
+      "elements": {
+        "Eid": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Empno": {
+          "type": "cds.String"
+        },
+        "Name": {
+          "type": "cds.String"
+        },
+        "Email": {
+          "type": "cds.String"
+        },
+        "Phone": {
+          "type": "cds.String"
+        },
+        "Joiningdate": {
+          "type": "cds.Date"
+        },
+        "Image": {
+          "@UI.IsImageURL": true,
+          "type": "cds.String"
+        },
+        "Pincode": {
+          "type": "cds.String"
+        },
+        "Mapurl": {
+          "type": "cds.String"
+        },
+        "departmentRef": {
+          "type": "cds.Association",
+          "target": "schema.Departments",
+          "keys": [
+            {
+              "ref": [
+                "Did"
+              ]
+            }
+          ]
+        },
+        "roleRef": {
+          "type": "cds.Association",
+          "target": "schema.Roles",
+          "keys": [
+            {
+              "ref": [
+                "Rid"
+              ]
+            }
+          ]
+        },
+        "enrollmentRef": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "FeedbackService.Enrollments",
+          "on": [
+            {
+              "ref": [
+                "enrollmentRef",
+                "employeeRef"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "notificationRef": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "schema.Notifications",
+          "on": [
+            {
+              "ref": [
+                "notificationRef",
+                "employeeRef"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "FeedbackService.Enrollments": {
+      "kind": "entity",
+      "@UI.FieldGroup#CourseDetails.$Type": "UI.FieldGroupType",
+      "@UI.FieldGroup#CourseDetails.Data": [
+        {
+          "$Type": "UI.DataField",
+          "Label": "Enrollment Id",
+          "Value": {
+            "=": "Enid"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Course Code",
+          "Value": {
+            "=": "courseRef.Coursecode"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Title",
+          "Value": {
+            "=": "courseRef.Title"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Description",
+          "Value": {
+            "=": "courseRef.Description"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Category",
+          "Value": {
+            "=": "courseRef.Category"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Duration Hour",
+          "Value": {
+            "=": "courseRef.Durationhour"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Mandatory",
+          "Value": {
+            "=": "courseRef.Ismandatory"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Validity Month",
+          "Value": {
+            "=": "courseRef.Validitymonth"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Max Enrollment",
+          "Value": {
+            "=": "courseRef.Maxenrollment"
+          }
+        }
+      ],
+      "@UI.HeaderInfo.Title.Value": {
+        "=": "employeeRef.Name"
+      },
+      "@UI.HeaderInfo.ImageUrl": {
+        "=": "employeeRef.Image"
+      },
+      "@UI.Facets": [
+        {
+          "$Type": "UI.ReferenceFacet",
+          "ID": "FeedbackFacet",
+          "Label": "SubmitFeedback",
+          "Target": "feedbackRef/@UI.FieldGroup#GeneratedGroup5"
+        },
+        {
+          "$Type": "UI.ReferenceFacet",
+          "ID": "CourseDetailsFacet",
+          "Label": "Course Details",
+          "Target": "@UI.FieldGroup#CourseDetails"
+        }
+      ],
+      "@UI.LineItem#Enrollments": [
+        {
+          "$Type": "UI.DataField",
+          "Label": "Enrollmentdate",
+          "Value": {
+            "=": "Enrollmentdate"
+          },
+          "@HTML5.CssDefaults": {
+            "width": "100px"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "CompletionDate",
+          "Value": {
+            "=": "Completiondate"
+          },
+          "@HTML5.CssDefaults": {
+            "width": "100px"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": " Certificate ExpiryDate",
+          "Value": {
+            "=": "ExpiryDate"
+          },
+          "Criticality": {
+            "=": "expiryCriticality"
+          },
+          "@HTML5.CssDefaults": {
+            "width": "150px"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Score",
+          "Value": {
+            "=": "Score"
+          },
+          "@HTML5.CssDefaults": {
+            "width": "100px"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "Status",
+          "Value": {
+            "=": "Status"
+          },
+          "@HTML5.CssDefaults": {
+            "width": "100px"
+          }
+        }
+      ],
+      "projection": {
+        "from": {
+          "ref": [
+            "schema.Enrollments"
+          ]
+        }
+      },
+      "elements": {
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "Enid": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Enrollmentdate": {
+          "type": "cds.Date"
+        },
+        "Completiondate": {
+          "type": "cds.Date"
+        },
+        "Score": {
+          "type": "cds.Integer"
+        },
+        "Status": {
+          "@assert.range": true,
+          "type": "cds.String",
+          "enum": {
+            "Enrolled": {},
+            "InProgress": {},
+            "Completed": {},
+            "Certified": {},
+            "Failed": {},
+            "Revoked": {}
+          }
+        },
+        "Reason": {
+          "type": "cds.String"
+        },
+        "Result": {
+          "@assert.range": true,
+          "type": "cds.String",
+          "enum": {
+            "Pass": {},
+            "Fail": {}
+          }
+        },
+        "CertificateNo": {
+          "type": "cds.String"
+        },
+        "ExpiryDate": {
+          "type": "cds.Date"
+        },
+        "expiryCriticality": {
+          "type": "cds.Integer"
+        },
+        "criticality": {
+          "type": "cds.Integer"
+        },
+        "TotalEnrollments": {
+          "@Core.Computed": true,
+          "virtual": true,
+          "type": "cds.Integer"
+        },
+        "Certifiedcount": {
+          "@Core.Computed": true,
+          "virtual": true,
+          "type": "cds.Integer"
+        },
+        "Rate": {
+          "@Core.Computed": true,
+          "virtual": true,
+          "type": "cds.Integer"
+        },
+        "employeeRef": {
+          "type": "cds.Association",
+          "target": "FeedbackService.Employees",
+          "keys": [
+            {
+              "ref": [
+                "Eid"
+              ]
+            }
+          ]
+        },
+        "courseRef": {
+          "type": "cds.Association",
+          "target": "FeedbackService.Courses",
+          "keys": [
+            {
+              "ref": [
+                "Cid"
+              ]
+            }
+          ]
+        },
+        "feedbackRef": {
+          "type": "cds.Composition",
+          "target": "FeedbackService.Feedback",
+          "on": [
+            {
+              "ref": [
+                "feedbackRef",
+                "enrollmentRef"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "assessmentRef": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "schema.Assessments",
+          "on": [
+            {
+              "ref": [
+                "assessmentRef",
+                "enrollmentRef"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "FeedbackService.submitFeedback": {
+      "kind": "action",
+      "params": {
+        "Enid": {
+          "type": "cds.UUID"
+        },
+        "Rating": {
+          "type": "cds.Integer"
+        },
+        "Comments": {
+          "type": "cds.String"
+        }
+      }
+    },
+    "FeedbackService.enroll": {
+      "kind": "action",
+      "params": {
+        "Eid": {
+          "type": "cds.UUID"
+        },
+        "Cid": {
+          "type": "cds.UUID"
+        }
+      },
+      "returns": {
+        "type": "cds.String"
+      }
+    },
+    "FeedbackService.Location": {
+      "kind": "type",
+      "elements": {
+        "place": {
+          "type": "cds.String"
+        },
+        "latitude": {
+          "type": "cds.String"
+        },
+        "longitude": {
+          "type": "cds.String"
+        }
+      }
+    },
+    "FeedbackService.GetLocationbyPincode": {
+      "kind": "action",
+      "params": {
+        "Pincode": {
+          "type": "cds.String"
+        }
+      },
+      "returns": {
+        "items": {
+          "type": "FeedbackService.Location"
+        }
+      }
+    },
+    "cds.outbox.Messages": {
+      "kind": "entity",
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "timestamp": {
+          "type": "cds.Timestamp"
+        },
+        "target": {
+          "type": "cds.String"
+        },
+        "msg": {
+          "type": "cds.LargeString"
+        },
+        "attempts": {
+          "type": "cds.Integer",
+          "default": {
+            "val": 0
+          }
+        },
+        "partition": {
+          "type": "cds.Integer",
+          "default": {
+            "val": 0
+          }
+        },
+        "lastError": {
+          "type": "cds.LargeString"
+        },
+        "lastAttemptTimestamp": {
+          "type": "cds.Timestamp"
+        },
+        "status": {
+          "type": "cds.String",
+          "length": 23
+        },
+        "task": {
+          "type": "cds.String",
+          "length": 255
+        },
+        "appid": {
+          "type": "cds.String",
+          "length": 255
+        }
+      }
+    },
+    "Language": {
+      "kind": "type",
+      "@title": "{i18n>Language}",
+      "@description": "{i18n>LanguageCode.Description}",
+      "type": "cds.Association",
+      "target": "sap.common.Languages",
+      "keys": [
+        {
+          "ref": [
+            "code"
+          ]
+        }
+      ]
+    },
+    "Currency": {
+      "kind": "type",
+      "@title": "{i18n>Currency}",
+      "@description": "{i18n>CurrencyCode.Description}",
+      "type": "cds.Association",
+      "target": "sap.common.Currencies",
+      "keys": [
+        {
+          "ref": [
+            "code"
+          ]
+        }
+      ]
+    },
+    "Country": {
+      "kind": "type",
+      "@title": "{i18n>Country}",
+      "@description": "{i18n>CountryCode.Description}",
+      "type": "cds.Association",
+      "target": "sap.common.Countries",
+      "keys": [
+        {
+          "ref": [
+            "code"
+          ]
+        }
+      ]
+    },
+    "Timezone": {
+      "kind": "type",
+      "type": "cds.Association",
+      "target": "sap.common.Timezones",
+      "keys": [
+        {
+          "ref": [
+            "code"
+          ]
+        }
+      ]
+    },
+    "sap.common": {
+      "kind": "context"
+    },
+    "sap.common.Locale": {
+      "kind": "type",
+      "@title": "{i18n>LanguageCode}",
+      "type": "cds.String",
+      "length": 14
+    },
+    "sap.common.Languages": {
+      "kind": "entity",
+      "@cds.autoexpose": true,
+      "@cds.persistence.skip": "if-unused",
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "name"
+          }
+        }
+      ],
+      "@cds.odata.valuelist": true,
+      "includes": [
+        "sap.common.CodeList"
+      ],
+      "elements": {
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@Common.Text": {
+            "=": "name"
+          },
+          "@title": "{i18n>LanguageCode}",
+          "key": true,
+          "type": "sap.common.Locale",
+          "length": 14
+        },
+        "texts": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "sap.common.Languages.texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "type": "cds.Association",
+          "target": "sap.common.Languages.texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "sap.common.Countries": {
+      "kind": "entity",
+      "@cds.autoexpose": true,
+      "@cds.persistence.skip": "if-unused",
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "name"
+          }
+        }
+      ],
+      "@cds.odata.valuelist": true,
+      "includes": [
+        "sap.common.CodeList"
+      ],
+      "elements": {
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@title": "{i18n>CountryCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        },
+        "texts": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "sap.common.Countries.texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "type": "cds.Association",
+          "target": "sap.common.Countries.texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "sap.common.Currencies": {
+      "kind": "entity",
+      "@cds.autoexpose": true,
+      "@cds.persistence.skip": "if-unused",
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "name"
+          }
+        }
+      ],
+      "@cds.odata.valuelist": true,
+      "includes": [
+        "sap.common.CodeList"
+      ],
+      "elements": {
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@title": "{i18n>CurrencyCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        },
+        "symbol": {
+          "@title": "{i18n>CurrencySymbol}",
+          "type": "cds.String",
+          "length": 5
+        },
+        "minorUnit": {
+          "@title": "{i18n>CurrencyMinorUnit}",
+          "type": "cds.Int16"
+        },
+        "texts": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "sap.common.Currencies.texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "type": "cds.Association",
+          "target": "sap.common.Currencies.texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "sap.common.Timezones": {
+      "kind": "entity",
+      "@cds.autoexpose": true,
+      "@cds.persistence.skip": "if-unused",
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "name"
+          }
+        }
+      ],
+      "@cds.odata.valuelist": true,
+      "includes": [
+        "sap.common.CodeList"
+      ],
+      "elements": {
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@title": "{i18n>TimeZoneCode}",
+          "key": true,
+          "type": "cds.String",
+          "length": 100
+        },
+        "texts": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "sap.common.Timezones.texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "type": "cds.Association",
+          "target": "sap.common.Timezones.texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "sap.common.CodeList": {
+      "kind": "aspect",
+      "@cds.autoexpose": true,
+      "@cds.persistence.skip": "if-unused",
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "name"
+          }
+        }
+      ],
+      "@cds.odata.valuelist": true,
+      "elements": {
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        }
+      }
+    },
+    "sap.common.TextsAspect": {
+      "kind": "aspect",
+      "elements": {
+        "locale": {
+          "@title": "{i18n>LanguageCode}",
+          "key": true,
+          "type": "sap.common.Locale",
+          "length": 14
+        }
+      }
+    },
+    "sap.common.FlowHistory": {
+      "kind": "aspect",
+      "@cds.persistence.skip": "if-unused",
+      "elements": {
+        "transitions_": {
+          "@odata.draft.enabled": false,
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "targetAspect": {
+            "elements": {
+              "timestamp": {
+                "@cds.on.insert": {
+                  "=": "$now"
+                },
+                "@UI.HiddenFilter": true,
+                "@UI.ExcludeFromNavigationContext": true,
+                "@Core.Immutable": true,
+                "@title": "{i18n>CreatedAt}",
+                "@readonly": true,
+                "key": true,
+                "type": {
+                  "ref": [
+                    "managed",
+                    "createdAt"
+                  ]
+                }
+              },
+              "user": {
+                "@cds.on.insert": {
+                  "=": "$user"
+                },
+                "@UI.HiddenFilter": true,
+                "@UI.ExcludeFromNavigationContext": true,
+                "@Core.Immutable": true,
+                "@title": "{i18n>CreatedBy}",
+                "@readonly": true,
+                "@description": "{i18n>UserID.Description}",
+                "type": {
+                  "ref": [
+                    "managed",
+                    "createdBy"
+                  ]
+                },
+                "length": 255
+              },
+              "status": {
+                "type": "cds.String"
+              },
+              "comment": {
+                "type": "cds.String"
+              }
+            }
+          }
+        }
+      }
+    },
+    "cuid": {
+      "kind": "aspect",
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        }
+      }
+    },
+    "managed": {
+      "kind": "aspect",
+      "elements": {
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        }
+      }
+    },
+    "temporal": {
+      "kind": "aspect",
+      "elements": {
+        "validFrom": {
+          "@cds.valid.from": true,
+          "type": "cds.Timestamp"
+        },
+        "validTo": {
+          "@cds.valid.to": true,
+          "type": "cds.Timestamp"
+        }
+      }
+    },
+    "User": {
+      "kind": "type",
+      "@title": "{i18n>UserID}",
+      "@description": "{i18n>UserID.Description}",
+      "type": "cds.String",
+      "length": 255
+    },
+    "TrainingService.Feedback": {
+      "kind": "entity",
+      "@cds.autoexposed": true,
+      "projection": {
+        "from": {
+          "ref": [
+            "schema.Feedback"
+          ]
+        }
+      },
+      "elements": {
+        "Fid": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Rating": {
+          "@assert.range": [
+            1,
+            5
+          ],
+          "type": "cds.Integer"
+        },
+        "Comments": {
+          "type": "cds.String"
+        },
+        "SubmittedAt": {
+          "type": "cds.Timestamp"
+        },
+        "enrollmentRef": {
+          "type": "cds.Association",
+          "target": "TrainingService.Enrollments",
+          "keys": [
+            {
+              "ref": [
+                "Enid"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "sap.common.Languages.texts": {
+      "kind": "entity",
+      "@odata.draft.enabled": false,
+      "includes": [
+        "sap.common.TextsAspect"
+      ],
+      "elements": {
+        "locale": {
+          "@title": "{i18n>LanguageCode}",
+          "key": true,
+          "type": "sap.common.Locale",
+          "length": 14
+        },
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": null,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": null,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@odata.containment.ignore": true,
+          "@Common.Text": {
+            "=": "name"
+          },
+          "@title": "{i18n>LanguageCode}",
+          "key": true,
+          "type": "sap.common.Locale",
+          "length": 14
+        }
+      }
+    },
+    "sap.common.Countries.texts": {
+      "kind": "entity",
+      "@odata.draft.enabled": false,
+      "includes": [
+        "sap.common.TextsAspect"
+      ],
+      "elements": {
+        "locale": {
+          "@title": "{i18n>LanguageCode}",
+          "key": true,
+          "type": "sap.common.Locale",
+          "length": 14
+        },
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": null,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": null,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@odata.containment.ignore": true,
+          "@title": "{i18n>CountryCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        }
+      }
+    },
+    "sap.common.Currencies.texts": {
+      "kind": "entity",
+      "@odata.draft.enabled": false,
+      "includes": [
+        "sap.common.TextsAspect"
+      ],
+      "elements": {
+        "locale": {
+          "@title": "{i18n>LanguageCode}",
+          "key": true,
+          "type": "sap.common.Locale",
+          "length": 14
+        },
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": null,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": null,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@odata.containment.ignore": true,
+          "@title": "{i18n>CurrencyCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        }
+      }
+    },
+    "sap.common.Timezones.texts": {
+      "kind": "entity",
+      "@odata.draft.enabled": false,
+      "includes": [
+        "sap.common.TextsAspect"
+      ],
+      "elements": {
+        "locale": {
+          "@title": "{i18n>LanguageCode}",
+          "key": true,
+          "type": "sap.common.Locale",
+          "length": 14
+        },
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": null,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": null,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@odata.containment.ignore": true,
+          "@title": "{i18n>TimeZoneCode}",
+          "key": true,
+          "type": "cds.String",
+          "length": 100
+        }
+      }
+    }
+  },
+  "meta": {
+    "creator": "CDS Compiler v6.9.2",
+    "compilerVersion": "6.9.2",
+    "compilerCsnFlavor": "inferred",
+    "flavor": "inferred"
+  },
+  "$version": "2.0"
+}

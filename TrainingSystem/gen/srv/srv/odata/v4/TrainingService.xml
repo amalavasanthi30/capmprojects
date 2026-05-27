@@ -1,0 +1,1019 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+    <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+    <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/HTML5.xml">
+    <edmx:Include Alias="HTML5" Namespace="com.sap.vocabularies.HTML5.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+    <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Validation.V1.xml">
+    <edmx:Include Alias="Validation" Namespace="Org.OData.Validation.V1"/>
+  </edmx:Reference>
+  <edmx:DataServices>
+    <Schema Namespace="TrainingService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <Annotation Term="Core.Links">
+        <Collection>
+          <Record>
+            <PropertyValue Property="rel" String="author"/>
+            <PropertyValue Property="href" String="https://cap.cloud.sap"/>
+          </Record>
+        </Collection>
+      </Annotation>
+      <EntityContainer Name="EntityContainer">
+        <EntitySet Name="Employees" EntityType="TrainingService.Employees">
+          <NavigationPropertyBinding Path="departmentRef" Target="Departments"/>
+          <NavigationPropertyBinding Path="roleRef" Target="Roles"/>
+          <NavigationPropertyBinding Path="enrollmentRef" Target="Enrollments"/>
+        </EntitySet>
+        <EntitySet Name="Courses" EntityType="TrainingService.Courses">
+          <NavigationPropertyBinding Path="trainingmanagerRef" Target="TrainingManager"/>
+          <NavigationPropertyBinding Path="enrollmentRef" Target="Enrollments"/>
+        </EntitySet>
+        <EntitySet Name="Assessments" EntityType="TrainingService.Assessments">
+          <NavigationPropertyBinding Path="enrollmentRef" Target="Enrollments"/>
+        </EntitySet>
+        <EntitySet Name="Departments" EntityType="TrainingService.Departments">
+          <NavigationPropertyBinding Path="employeeRef" Target="Employees"/>
+        </EntitySet>
+        <EntitySet Name="TrainingManager" EntityType="TrainingService.TrainingManager">
+          <NavigationPropertyBinding Path="courseRef" Target="Courses"/>
+        </EntitySet>
+        <EntitySet Name="Roles" EntityType="TrainingService.Roles">
+          <NavigationPropertyBinding Path="employeeRef" Target="Employees"/>
+        </EntitySet>
+        <EntitySet Name="Enrollments" EntityType="TrainingService.Enrollments">
+          <NavigationPropertyBinding Path="employeeRef" Target="Employees"/>
+          <NavigationPropertyBinding Path="courseRef" Target="Courses"/>
+          <NavigationPropertyBinding Path="feedbackRef" Target="Feedback"/>
+          <NavigationPropertyBinding Path="assessmentRef" Target="Assessments"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="Enrollments"/>
+        </EntitySet>
+        <EntitySet Name="Feedback" EntityType="TrainingService.Feedback">
+          <NavigationPropertyBinding Path="enrollmentRef" Target="Enrollments"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="Feedback"/>
+        </EntitySet>
+        <ActionImport Name="revoke" Action="TrainingService.revoke"/>
+        <FunctionImport Name="getExpiringCertificate" Function="TrainingService.getExpiringCertificate" EntitySet="Enrollments"/>
+        <ActionImport Name="createAssessment" Action="TrainingService.createAssessment" EntitySet="Assessments"/>
+        <ActionImport Name="createCourse" Action="TrainingService.createCourse"/>
+        <ActionImport Name="updateCourse" Action="TrainingService.updateCourse"/>
+        <ActionImport Name="deleteCourse" Action="TrainingService.deleteCourse"/>
+        <ActionImport Name="readCourse" Action="TrainingService.readCourse"/>
+      </EntityContainer>
+      <EntityType Name="Employees">
+        <Key>
+          <PropertyRef Name="Eid"/>
+        </Key>
+        <Property Name="Eid" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="Empno" Type="Edm.String"/>
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="Email" Type="Edm.String"/>
+        <Property Name="Phone" Type="Edm.String"/>
+        <Property Name="Joiningdate" Type="Edm.Date"/>
+        <Property Name="Image" Type="Edm.String"/>
+        <Property Name="Pincode" Type="Edm.String"/>
+        <Property Name="Mapurl" Type="Edm.String"/>
+        <NavigationProperty Name="departmentRef" Type="TrainingService.Departments" Partner="employeeRef">
+          <ReferentialConstraint Property="departmentRef_Did" ReferencedProperty="Did"/>
+        </NavigationProperty>
+        <Property Name="departmentRef_Did" Type="Edm.Guid"/>
+        <NavigationProperty Name="roleRef" Type="TrainingService.Roles" Partner="employeeRef">
+          <ReferentialConstraint Property="roleRef_Rid" ReferencedProperty="Rid"/>
+        </NavigationProperty>
+        <Property Name="roleRef_Rid" Type="Edm.Guid"/>
+        <NavigationProperty Name="enrollmentRef" Type="Collection(TrainingService.Enrollments)" Partner="employeeRef"/>
+      </EntityType>
+      <EntityType Name="Courses">
+        <Key>
+          <PropertyRef Name="Cid"/>
+        </Key>
+        <Property Name="Cid" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="Coursecode" Type="Edm.String"/>
+        <Property Name="Title" Type="Edm.String"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="Category" Type="Edm.String"/>
+        <Property Name="Durationhour" Type="Edm.Int32"/>
+        <Property Name="Ismandatory" Type="Edm.Boolean"/>
+        <Property Name="Validitymonth" Type="Edm.Int32"/>
+        <Property Name="Maxenrollment" Type="Edm.Int32"/>
+        <NavigationProperty Name="trainingmanagerRef" Type="TrainingService.TrainingManager" Partner="courseRef">
+          <ReferentialConstraint Property="trainingmanagerRef_Tid" ReferencedProperty="Tid"/>
+        </NavigationProperty>
+        <Property Name="trainingmanagerRef_Tid" Type="Edm.Guid"/>
+        <NavigationProperty Name="enrollmentRef" Type="Collection(TrainingService.Enrollments)" Partner="courseRef"/>
+      </EntityType>
+      <EntityType Name="Assessments">
+        <Key>
+          <PropertyRef Name="Aid"/>
+        </Key>
+        <Property Name="Aid" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="Assessmentname" Type="Edm.String"/>
+        <Property Name="Totalmark" Type="Edm.Int32"/>
+        <Property Name="MarksObtained" Type="Edm.Int32"/>
+        <Property Name="Passingmark" Type="Edm.Int32"/>
+        <NavigationProperty Name="enrollmentRef" Type="TrainingService.Enrollments" Partner="assessmentRef">
+          <ReferentialConstraint Property="enrollmentRef_Enid" ReferencedProperty="Enid"/>
+        </NavigationProperty>
+        <Property Name="enrollmentRef_Enid" Type="Edm.Guid"/>
+      </EntityType>
+      <EntityType Name="Departments">
+        <Key>
+          <PropertyRef Name="Did"/>
+        </Key>
+        <Property Name="Did" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="Deptcode" Type="Edm.String"/>
+        <Property Name="Deptname" Type="Edm.String"/>
+        <NavigationProperty Name="employeeRef" Type="Collection(TrainingService.Employees)" Partner="departmentRef"/>
+      </EntityType>
+      <EntityType Name="TrainingManager">
+        <Key>
+          <PropertyRef Name="Tid"/>
+        </Key>
+        <Property Name="Tid" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="Trainername" Type="Edm.String"/>
+        <Property Name="Email" Type="Edm.String"/>
+        <Property Name="Phone" Type="Edm.String"/>
+        <Property Name="Experienceyear" Type="Edm.Int32"/>
+        <NavigationProperty Name="courseRef" Type="Collection(TrainingService.Courses)" Partner="trainingmanagerRef"/>
+      </EntityType>
+      <EntityType Name="Roles">
+        <Key>
+          <PropertyRef Name="Rid"/>
+        </Key>
+        <Property Name="Rid" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="Rolename" Type="Edm.String"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <NavigationProperty Name="employeeRef" Type="Collection(TrainingService.Employees)" Partner="roleRef"/>
+      </EntityType>
+      <EntityType Name="Enrollments">
+        <Key>
+          <PropertyRef Name="Enid"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="Enid" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="Enrollmentdate" Type="Edm.Date"/>
+        <Property Name="Completiondate" Type="Edm.Date"/>
+        <Property Name="Score" Type="Edm.Int32"/>
+        <Property Name="Status" Type="Edm.String"/>
+        <Property Name="Reason" Type="Edm.String"/>
+        <Property Name="Result" Type="Edm.String"/>
+        <Property Name="CertificateNo" Type="Edm.String"/>
+        <Property Name="ExpiryDate" Type="Edm.Date"/>
+        <Property Name="expiryCriticality" Type="Edm.Int32"/>
+        <Property Name="criticality" Type="Edm.Int32"/>
+        <Property Name="TotalEnrollments" Type="Edm.Int32"/>
+        <Property Name="Certifiedcount" Type="Edm.Int32"/>
+        <Property Name="Rate" Type="Edm.Int32"/>
+        <NavigationProperty Name="employeeRef" Type="TrainingService.Employees" Partner="enrollmentRef">
+          <ReferentialConstraint Property="employeeRef_Eid" ReferencedProperty="Eid"/>
+        </NavigationProperty>
+        <Property Name="employeeRef_Eid" Type="Edm.Guid"/>
+        <NavigationProperty Name="courseRef" Type="TrainingService.Courses" Partner="enrollmentRef">
+          <ReferentialConstraint Property="courseRef_Cid" ReferencedProperty="Cid"/>
+        </NavigationProperty>
+        <Property Name="courseRef_Cid" Type="Edm.Guid"/>
+        <NavigationProperty Name="feedbackRef" Type="TrainingService.Feedback" Partner="enrollmentRef">
+          <OnDelete Action="Cascade"/>
+          <ReferentialConstraint Property="Enid" ReferencedProperty="enrollmentRef_Enid"/>
+        </NavigationProperty>
+        <NavigationProperty Name="assessmentRef" Type="Collection(TrainingService.Assessments)" Partner="enrollmentRef"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="TrainingService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="TrainingService.Enrollments"/>
+        <Property Name="DraftMessages" Type="Collection(TrainingService.DRAFT_DraftAdministrativeData_DraftMessage)" Nullable="true"/>
+      </EntityType>
+      <EntityType Name="Feedback">
+        <Key>
+          <PropertyRef Name="Fid"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="Fid" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="Rating" Type="Edm.Int32"/>
+        <Property Name="Comments" Type="Edm.String"/>
+        <Property Name="SubmittedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <NavigationProperty Name="enrollmentRef" Type="TrainingService.Enrollments" Partner="feedbackRef">
+          <ReferentialConstraint Property="enrollmentRef_Enid" ReferencedProperty="Enid"/>
+        </NavigationProperty>
+        <Property Name="enrollmentRef_Enid" Type="Edm.Guid"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="TrainingService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="TrainingService.Feedback"/>
+        <Property Name="DraftMessages" Type="Collection(TrainingService.DRAFT_DraftAdministrativeData_DraftMessage)" Nullable="true"/>
+      </EntityType>
+      <EntityType Name="DraftAdministrativeData">
+        <Key>
+          <PropertyRef Name="DraftUUID"/>
+        </Key>
+        <Property Name="DraftUUID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="CreationDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="CreatedByUser" Type="Edm.String" MaxLength="256"/>
+        <Property Name="DraftIsCreatedByMe" Type="Edm.Boolean"/>
+        <Property Name="LastChangeDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="LastChangedByUser" Type="Edm.String" MaxLength="256"/>
+        <Property Name="InProcessByUser" Type="Edm.String" MaxLength="256"/>
+        <Property Name="DraftIsProcessedByMe" Type="Edm.Boolean"/>
+      </EntityType>
+      <ComplexType Name="DRAFT_DraftAdministrativeData_DraftMessage">
+        <Property Name="code" Type="Edm.String"/>
+        <Property Name="message" Type="Edm.String"/>
+        <Property Name="target" Type="Edm.String"/>
+        <Property Name="additionalTargets" Type="Collection(Edm.String)" Nullable="true"/>
+        <Property Name="transition" Type="Edm.Boolean"/>
+        <Property Name="numericSeverity" Type="Edm.Byte"/>
+        <Property Name="longtextUrl" Type="Edm.String"/>
+      </ComplexType>
+      <Action Name="findscore" IsBound="true">
+        <Parameter Name="in" Type="TrainingService.Enrollments"/>
+      </Action>
+      <Action Name="startTraining" IsBound="true">
+        <Parameter Name="in" Type="TrainingService.Enrollments"/>
+      </Action>
+      <Action Name="complete" IsBound="true">
+        <Parameter Name="in" Type="TrainingService.Enrollments"/>
+        <Parameter Name="Score" Type="Edm.Int32"/>
+        <ReturnType Type="Edm.String"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="TrainingService.Enrollments"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="TrainingService.Enrollments"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="TrainingService.Feedback"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="TrainingService.Feedback"/>
+      </Action>
+      <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="TrainingService.Enrollments"/>
+        <ReturnType Type="TrainingService.Enrollments"/>
+      </Action>
+      <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="TrainingService.Enrollments"/>
+        <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+        <ReturnType Type="TrainingService.Enrollments"/>
+      </Action>
+      <Action Name="revoke" IsBound="false">
+        <Parameter Name="Enid" Type="Edm.Guid"/>
+        <Parameter Name="Reason" Type="Edm.String"/>
+      </Action>
+      <Function Name="getExpiringCertificate" IsBound="false" IsComposable="false">
+        <Parameter Name="daysAhead" Type="Edm.Int32"/>
+        <ReturnType Type="Collection(TrainingService.Enrollments)"/>
+      </Function>
+      <Action Name="createAssessment" IsBound="false">
+        <Parameter Name="Assessmentname" Type="Edm.String"/>
+        <Parameter Name="Totalmark" Type="Edm.Int32"/>
+        <Parameter Name="MarksObtained" Type="Edm.Int32"/>
+        <Parameter Name="Passingmark" Type="Edm.Int32"/>
+        <Parameter Name="enrollmentRef_Enid" Type="Edm.Guid"/>
+        <ReturnType Type="TrainingService.Assessments"/>
+      </Action>
+      <Action Name="createCourse" IsBound="false">
+        <Parameter Name="Coursecode" Type="Edm.String"/>
+        <Parameter Name="Title" Type="Edm.String"/>
+        <Parameter Name="Description" Type="Edm.String"/>
+        <Parameter Name="Category" Type="Edm.String"/>
+        <Parameter Name="Durationhour" Type="Edm.Int32"/>
+        <Parameter Name="Ismandatory" Type="Edm.Boolean"/>
+        <Parameter Name="Validitymonth" Type="Edm.Int32"/>
+        <Parameter Name="Maxenrollment" Type="Edm.Int32"/>
+      </Action>
+      <Action Name="updateCourse" IsBound="false">
+        <Parameter Name="Cid" Type="Edm.Guid"/>
+        <Parameter Name="Coursecode" Type="Edm.String"/>
+        <Parameter Name="Title" Type="Edm.String"/>
+        <Parameter Name="Description" Type="Edm.String"/>
+        <Parameter Name="Category" Type="Edm.String"/>
+        <Parameter Name="Durationhour" Type="Edm.Int32"/>
+        <Parameter Name="Ismandatory" Type="Edm.Boolean"/>
+        <Parameter Name="Validitymonth" Type="Edm.Int32"/>
+        <Parameter Name="Maxenrollment" Type="Edm.Int32"/>
+      </Action>
+      <Action Name="deleteCourse" IsBound="false">
+        <Parameter Name="Cid" Type="Edm.Guid"/>
+      </Action>
+      <Action Name="readCourse" IsBound="false">
+        <Parameter Name="Cid" Type="Edm.Guid"/>
+      </Action>
+      <Annotations Target="TrainingService.EntityContainer">
+        <Annotation Term="Common.AddressViaNavigationPath" Bool="true"/>
+      </Annotations>
+      <Annotations Target="TrainingService.Employees/Eid">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="TrainingService.Employees/Image">
+        <Annotation Term="UI.IsImageURL" Bool="true"/>
+      </Annotations>
+      <Annotations Target="TrainingService.Employees/departmentRef_Did">
+        <Annotation Term="Common.Text" Path="DeptName"/>
+        <Annotation Term="Common.ValueList">
+          <Record Type="Common.ValueListType">
+            <PropertyValue Property="CollectionPath" String="Departments"/>
+            <PropertyValue Property="Parameters">
+              <Collection>
+                <Record Type="Common.ValueListParameterInOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="Did"/>
+                  <PropertyValue Property="ValueListProperty" String="Did"/>
+                </Record>
+                <Record Type="{&quot;=&quot;:&quot;Common.ValueListParameterDisplayOnly&quot;}">
+                  <PropertyValue Property="ValueListProperty" String="Deptname"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="Common.ValueListWithFixedValues" Bool="true"/>
+      </Annotations>
+      <Annotations Target="TrainingService.Courses/Cid">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="TrainingService.Courses/Category">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Technical"/>
+              <PropertyValue Property="Value" String="Technical"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Functional"/>
+              <PropertyValue Property="Value" String="Functional"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Compliance"/>
+              <PropertyValue Property="Value" String="Compliance"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Security"/>
+              <PropertyValue Property="Value" String="Security"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Leadership"/>
+              <PropertyValue Property="Value" String="Leadership"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="SoftSkills"/>
+              <PropertyValue Property="Value" String="SoftSkills"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="TrainingService.Assessments/Aid">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="TrainingService.Departments/Did">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="TrainingService.TrainingManager/Tid">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="TrainingService.Roles/Rid">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="TrainingService.Enrollments">
+        <Annotation Term="UI.FieldGroup" Qualifier="GeneratedGroup">
+          <Record Type="UI.FieldGroupType">
+            <PropertyValue Property="Data">
+              <Collection>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Label" String="Enrollmentdate"/>
+                  <PropertyValue Property="Value" Path="Enrollmentdate"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Label" String="Enrollmentdate"/>
+                  <PropertyValue Property="Value" Path="TotalEnrollments"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Label" String="Courseid"/>
+                  <PropertyValue Property="Value" Path="courseRef_Cid"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Label" String="Employeeid"/>
+                  <PropertyValue Property="Value" Path="employeeRef_Eid"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Label" String="Completiondate"/>
+                  <PropertyValue Property="Value" Path="Completiondate"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Label" String="Score"/>
+                  <PropertyValue Property="Value" Path="Score"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Label" String="Status"/>
+                  <PropertyValue Property="Value" Path="Status"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Label" String="Result"/>
+                  <PropertyValue Property="Value" Path="Result"/>
+                  <PropertyValue Property="Criticality" Path="criticality"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Label" String="CertificateNo"/>
+                  <PropertyValue Property="Value" Path="CertificateNo"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Label" String="ExpiryDate"/>
+                  <PropertyValue Property="Value" Path="ExpiryDate"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.DataPoint" Qualifier="TotalEnrollmentKPI">
+          <Record Type="UI.DataPointType">
+            <PropertyValue Property="Title" String="Total Enrollments"/>
+            <PropertyValue Property="Value" Path="TotalEnrollments"/>
+            <PropertyValue Property="Criticality" EnumMember="UI.CriticalityType/Negative"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.DataPoint" Qualifier="CertifiedKPI">
+          <Record Type="UI.DataPointType">
+            <PropertyValue Property="Title" String="Certified Count"/>
+            <PropertyValue Property="Value" Path="Certifiedcount"/>
+            <PropertyValue Property="Criticality" EnumMember="UI.CriticalityType/Negative"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.HeaderFacets">
+          <Collection>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="Label" String="Total Enrollments"/>
+              <PropertyValue Property="Target" AnnotationPath="@UI.DataPoint#TotalEnrollmentKPI"/>
+            </Record>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="Label" String="Certified Count"/>
+              <PropertyValue Property="Target" AnnotationPath="@UI.DataPoint#CertifiedKPI"/>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.HeaderInfo">
+          <Record Type="UI.HeaderInfoType">
+            <PropertyValue Property="Title">
+              <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="employeeRef/Name"/>
+              </Record>
+            </PropertyValue>
+            <PropertyValue Property="ImageUrl" Path="employeeRef/Image"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.SelectionFields">
+          <Collection>
+            <PropertyPath>Enid</PropertyPath>
+            <PropertyPath>employeeRef/departmentRef_Did</PropertyPath>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.FieldGroup" Qualifier="CourseDetails">
+          <Record Type="UI.FieldGroupType">
+            <PropertyValue Property="Data">
+              <Collection>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Label" String="Course Id"/>
+                  <PropertyValue Property="Value" Path="courseRef/Cid"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Label" String="Course Code"/>
+                  <PropertyValue Property="Value" Path="courseRef/Coursecode"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Label" String="Title"/>
+                  <PropertyValue Property="Value" Path="courseRef/Title"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Label" String="Description"/>
+                  <PropertyValue Property="Value" Path="courseRef/Description"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Label" String="Category"/>
+                  <PropertyValue Property="Value" Path="courseRef/Category"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Label" String="Duration Hour"/>
+                  <PropertyValue Property="Value" Path="courseRef/Durationhour"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Label" String="Mandatory"/>
+                  <PropertyValue Property="Value" Path="courseRef/Ismandatory"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Label" String="Validity Month"/>
+                  <PropertyValue Property="Value" Path="courseRef/Validitymonth"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Label" String="Max Enrollment"/>
+                  <PropertyValue Property="Value" Path="courseRef/Maxenrollment"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.FieldGroup" Qualifier="FeedbackDetails">
+          <Record Type="UI.FieldGroupType">
+            <PropertyValue Property="Data">
+              <Collection>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Label" String="Feedback Id"/>
+                  <PropertyValue Property="Value" Path="feedbackRef/Fid"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Label" String="Comments"/>
+                  <PropertyValue Property="Value" Path="feedbackRef/Comments"/>
+                </Record>
+                <Record Type="UI.DataFieldForAnnotation">
+                  <PropertyValue Property="Label" String="Rating"/>
+                  <PropertyValue Property="Value" Path="feedbackRef/Rating"/>
+                  <PropertyValue Property="Target" AnnotationPath="@UI.DataPoint#Ratings"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Label" String="SubmittedAt"/>
+                  <PropertyValue Property="Value" Path="feedbackRef/SubmittedAt"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.FieldGroup" Qualifier="EmployeeDetails">
+          <Record Type="UI.FieldGroupType">
+            <PropertyValue Property="Data">
+              <Collection>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Label" String="EmpoyeeId"/>
+                  <PropertyValue Property="Value" Path="employeeRef/Eid"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Label" String="Employeename"/>
+                  <PropertyValue Property="Value" Path="employeeRef/Name"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Label" String="Employeeimage"/>
+                  <PropertyValue Property="Value" Path="employeeRef/Image"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Label" String="Email"/>
+                  <PropertyValue Property="Value" Path="employeeRef/Email"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Label" String="Phone"/>
+                  <PropertyValue Property="Value" Path="employeeRef/Phone"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.Facets">
+          <Collection>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="ID" String="GeneratedFacet1"/>
+              <PropertyValue Property="Label" String="Enrollment Information"/>
+              <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#GeneratedGroup"/>
+            </Record>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="ID" String="GeneratedFacet2"/>
+              <PropertyValue Property="Label" String="Course Details"/>
+              <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#CourseDetails"/>
+            </Record>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="ID" String="GeneratedFacet3"/>
+              <PropertyValue Property="Label" String="Feedback Details"/>
+              <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#FeedbackDetails"/>
+            </Record>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="ID" String="GeneratedFacet4"/>
+              <PropertyValue Property="Label" String="Employee Details"/>
+              <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#EmployeeDetails"/>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.DataPoint" Qualifier="Ratings">
+          <Record Type="UI.DataPointType">
+            <PropertyValue Property="Value" Path="feedbackRef/Rating"/>
+            <PropertyValue Property="Visualization" EnumMember="UI.VisualizationType/Rating"/>
+            <Annotation Term="HTML5.CssDefaults">
+              <Record Type="HTML5.CssDefaultsType">
+                <PropertyValue Property="width" String="150px"/>
+              </Record>
+            </Annotation>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.LineItem">
+          <Collection>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Label" String="Employeename"/>
+              <PropertyValue Property="Value" Path="employeeRef/Name"/>
+              <Annotation Term="HTML5.CssDefaults">
+                <Record Type="HTML5.CssDefaultsType">
+                  <PropertyValue Property="width" String="100px"/>
+                </Record>
+              </Annotation>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Label" String="Coursename"/>
+              <PropertyValue Property="Value" Path="courseRef/Title"/>
+              <Annotation Term="HTML5.CssDefaults">
+                <Record Type="HTML5.CssDefaultsType">
+                  <PropertyValue Property="width" String="150px"/>
+                </Record>
+              </Annotation>
+            </Record>
+            <Record Type="UI.DataFieldForAnnotation">
+              <PropertyValue Property="Label" String="Rating"/>
+              <PropertyValue Property="Target" AnnotationPath="@UI.DataPoint#Ratings"/>
+              <PropertyValue Property="Value" Path="feedbackRef/Rating"/>
+              <Annotation Term="HTML5.CssDefaults">
+                <Record Type="HTML5.CssDefaultsType">
+                  <PropertyValue Property="width" String="150px"/>
+                </Record>
+              </Annotation>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Label" String="Status"/>
+              <PropertyValue Property="Value" Path="Status"/>
+              <Annotation Term="HTML5.CssDefaults">
+                <Record Type="HTML5.CssDefaultsType">
+                  <PropertyValue Property="width" String="90px"/>
+                </Record>
+              </Annotation>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Label" String="Result"/>
+              <PropertyValue Property="Value" Path="Result"/>
+              <PropertyValue Property="Criticality" Path="criticality"/>
+              <Annotation Term="HTML5.CssDefaults">
+                <Record Type="HTML5.CssDefaultsType">
+                  <PropertyValue Property="width" String="90px"/>
+                </Record>
+              </Annotation>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Label" String="Department"/>
+              <PropertyValue Property="Value" Path="employeeRef/departmentRef/Deptname"/>
+              <Annotation Term="HTML5.CssDefaults">
+                <Record Type="HTML5.CssDefaultsType">
+                  <PropertyValue Property="width" String="150px"/>
+                </Record>
+              </Annotation>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Action" String="TrainingService.EntityContainer/getExpiringCertificate"/>
+              <PropertyValue Property="Label" String="getExpiringCertificate"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Action" String="TrainingService.startTraining"/>
+              <PropertyValue Property="Inline" Bool="true"/>
+              <PropertyValue Property="Criticality" EnumMember="UI.CriticalityType/Negative"/>
+              <PropertyValue Property="Label" String="startTraining"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Action" String="TrainingService.EntityContainer/createAssessment"/>
+              <PropertyValue Property="Label" String="createAssessment"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Action" String="TrainingService.findscore"/>
+              <PropertyValue Property="Inline" Bool="true"/>
+              <PropertyValue Property="Criticality" EnumMember="UI.CriticalityType/Negative"/>
+              <PropertyValue Property="Label" String="findscore"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Action" String="TrainingService.complete"/>
+              <PropertyValue Property="Inline" Bool="true"/>
+              <PropertyValue Property="Criticality" EnumMember="UI.CriticalityType/Negative"/>
+              <PropertyValue Property="Label" String="complete"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Action" String="TrainingService.EntityContainer/createCourse"/>
+              <PropertyValue Property="Label" String="createCourse"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Action" String="TrainingService.EntityContainer/deleteCourse"/>
+              <PropertyValue Property="Label" String="deleteeCourse"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Action" String="TrainingService.EntityContainer/updateCourse"/>
+              <PropertyValue Property="Label" String="updateCourse"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Action" String="TrainingService.EntityContainer/deleteCourse"/>
+              <PropertyValue Property="Label" String="deleteCourse"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Action" String="TrainingService.EntityContainer/readCourse"/>
+              <PropertyValue Property="Label" String="readCourse"/>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="Common.SideEffects" Qualifier="alwaysFetchMessages">
+          <Record Type="Common.SideEffectsType">
+            <PropertyValue Property="SourceEntities">
+              <Collection>
+                <NavigationPropertyPath></NavigationPropertyPath>
+              </Collection>
+            </PropertyValue>
+            <PropertyValue Property="TargetProperties">
+              <Collection>
+                <String>DraftMessages</String>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="Common.Messages" Path="DraftMessages"/>
+      </Annotations>
+      <Annotations Target="TrainingService.EntityContainer/Enrollments">
+        <Annotation Term="Common.DraftRoot">
+          <Record Type="Common.DraftRootType">
+            <PropertyValue Property="ActivationAction" String="TrainingService.draftActivate"/>
+            <PropertyValue Property="EditAction" String="TrainingService.draftEdit"/>
+            <PropertyValue Property="PreparationAction" String="TrainingService.draftPrepare"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Common.SideEffects" Qualifier="alwaysFetchMessages">
+          <Record Type="Common.SideEffectsType">
+            <PropertyValue Property="SourceEntities">
+              <Collection>
+                <NavigationPropertyPath></NavigationPropertyPath>
+              </Collection>
+            </PropertyValue>
+            <PropertyValue Property="TargetProperties">
+              <Collection>
+                <String>DraftMessages</String>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="TrainingService.Enrollments/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="TrainingService.Enrollments/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="TrainingService.Enrollments/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="TrainingService.Enrollments/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="TrainingService.Enrollments/Enid">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="TrainingService.Enrollments/Status">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Enrolled"/>
+              <PropertyValue Property="Value" String="Enrolled"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="InProgress"/>
+              <PropertyValue Property="Value" String="InProgress"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Completed"/>
+              <PropertyValue Property="Value" String="Completed"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Certified"/>
+              <PropertyValue Property="Value" String="Certified"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Failed"/>
+              <PropertyValue Property="Value" String="Failed"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Revoked"/>
+              <PropertyValue Property="Value" String="Revoked"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="TrainingService.Enrollments/Result">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Pass"/>
+              <PropertyValue Property="Value" String="Pass"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Fail"/>
+              <PropertyValue Property="Value" String="Fail"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="TrainingService.Enrollments/TotalEnrollments">
+        <Annotation Term="Core.Computed" Bool="true"/>
+      </Annotations>
+      <Annotations Target="TrainingService.Enrollments/Certifiedcount">
+        <Annotation Term="Core.Computed" Bool="true"/>
+      </Annotations>
+      <Annotations Target="TrainingService.Enrollments/Rate">
+        <Annotation Term="Core.Computed" Bool="true"/>
+      </Annotations>
+      <Annotations Target="TrainingService.Enrollments/employeeRef_Eid">
+        <Annotation Term="Common.ValueList">
+          <Record Type="Common.ValueListType">
+            <PropertyValue Property="Type" String="Common.ValueListType"/>
+            <PropertyValue Property="CollectionPath" String="Employees"/>
+            <PropertyValue Property="Parameters">
+              <Collection>
+                <Record Type="Common.ValueListParameterInOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="employeeRef_Eid"/>
+                  <PropertyValue Property="ValueListProperty" String="Eid"/>
+                </Record>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="Empno"/>
+                </Record>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="Name"/>
+                </Record>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="Email"/>
+                </Record>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="Phone"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="TrainingService.Enrollments/courseRef_Cid">
+        <Annotation Term="Common.ValueList">
+          <Record Type="Common.ValueListType">
+            <PropertyValue Property="CollectionPath" String="Courses"/>
+            <PropertyValue Property="Parameters">
+              <Collection>
+                <Record Type="Common.ValueListParameterInOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="courseRef_Cid"/>
+                  <PropertyValue Property="ValueListProperty" String="Cid"/>
+                </Record>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="Coursecode"/>
+                </Record>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="Title"/>
+                </Record>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="Description"/>
+                </Record>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="Category"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="TrainingService.Enrollments/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="TrainingService.Enrollments/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="TrainingService.Enrollments/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="TrainingService.Enrollments/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="TrainingService.Enrollments/DraftMessages">
+        <Annotation Term="Core.Computed" Bool="true"/>
+      </Annotations>
+      <Annotations Target="TrainingService.complete(TrainingService.Enrollments)">
+        <Annotation Term="Common.SideEffects">
+          <Record Type="Common.SideEffectsType">
+            <PropertyValue Property="TargetProperties">
+              <Collection>
+                <String>Status</String>
+                <String>Result</String>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="TrainingService.getExpiringCertificate(Edm.Int32)/daysAhead">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="TrainingService.Feedback">
+        <Annotation Term="Common.SideEffects" Qualifier="alwaysFetchMessages">
+          <Record Type="Common.SideEffectsType">
+            <PropertyValue Property="SourceEntities">
+              <Collection>
+                <NavigationPropertyPath></NavigationPropertyPath>
+              </Collection>
+            </PropertyValue>
+            <PropertyValue Property="TargetProperties">
+              <Collection>
+                <String>DraftMessages</String>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="Common.Messages" Path="DraftMessages"/>
+      </Annotations>
+      <Annotations Target="TrainingService.EntityContainer/Feedback">
+        <Annotation Term="Common.DraftNode">
+          <Record Type="Common.DraftNodeType">
+            <PropertyValue Property="PreparationAction" String="TrainingService.draftPrepare"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Common.SideEffects" Qualifier="alwaysFetchMessages">
+          <Record Type="Common.SideEffectsType">
+            <PropertyValue Property="SourceEntities">
+              <Collection>
+                <NavigationPropertyPath></NavigationPropertyPath>
+              </Collection>
+            </PropertyValue>
+            <PropertyValue Property="TargetProperties">
+              <Collection>
+                <String>DraftMessages</String>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="TrainingService.Feedback/Fid">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="TrainingService.Feedback/Rating">
+        <Annotation Term="Validation.Minimum" Int="1"/>
+        <Annotation Term="Validation.Maximum" Int="5"/>
+      </Annotations>
+      <Annotations Target="TrainingService.Feedback/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="TrainingService.Feedback/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="TrainingService.Feedback/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="TrainingService.Feedback/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="TrainingService.Feedback/DraftMessages">
+        <Annotation Term="Core.Computed" Bool="true"/>
+      </Annotations>
+      <Annotations Target="TrainingService.DraftAdministrativeData">
+        <Annotation Term="Common.Label" String="{i18n>Draft_DraftAdministrativeData}"/>
+      </Annotations>
+      <Annotations Target="TrainingService.DraftAdministrativeData/DraftUUID">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>Draft_DraftUUID}"/>
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="TrainingService.DraftAdministrativeData/CreationDateTime">
+        <Annotation Term="Common.Label" String="{i18n>Draft_CreationDateTime}"/>
+      </Annotations>
+      <Annotations Target="TrainingService.DraftAdministrativeData/CreatedByUser">
+        <Annotation Term="Common.Label" String="{i18n>Draft_CreatedByUser}"/>
+      </Annotations>
+      <Annotations Target="TrainingService.DraftAdministrativeData/DraftIsCreatedByMe">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>Draft_DraftIsCreatedByMe}"/>
+      </Annotations>
+      <Annotations Target="TrainingService.DraftAdministrativeData/LastChangeDateTime">
+        <Annotation Term="Common.Label" String="{i18n>Draft_LastChangeDateTime}"/>
+      </Annotations>
+      <Annotations Target="TrainingService.DraftAdministrativeData/LastChangedByUser">
+        <Annotation Term="Common.Label" String="{i18n>Draft_LastChangedByUser}"/>
+      </Annotations>
+      <Annotations Target="TrainingService.DraftAdministrativeData/InProcessByUser">
+        <Annotation Term="Common.Label" String="{i18n>Draft_InProcessByUser}"/>
+      </Annotations>
+      <Annotations Target="TrainingService.DraftAdministrativeData/DraftIsProcessedByMe">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>Draft_DraftIsProcessedByMe}"/>
+      </Annotations>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

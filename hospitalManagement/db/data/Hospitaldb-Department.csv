@@ -1,0 +1,3 @@
+Department_Id,Department_name,floor_no,No_Of_Doctors,No_Of_Nurse,HospitalID_Hospital_Id
+De01,cardiology,3,10,20,H01
+De02,Neorology,2,7,15,H01

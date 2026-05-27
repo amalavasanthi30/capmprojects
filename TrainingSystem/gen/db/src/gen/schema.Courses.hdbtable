@@ -1,0 +1,13 @@
+COLUMN TABLE schema_Courses (
+  Cid NVARCHAR(36) NOT NULL,
+  Coursecode NVARCHAR(5000),
+  Title NVARCHAR(5000),
+  Description NVARCHAR(5000),
+  Category NVARCHAR(5000),
+  Durationhour INTEGER,
+  Ismandatory BOOLEAN,
+  Validitymonth INTEGER,
+  Maxenrollment INTEGER,
+  trainingmanagerRef_Tid NVARCHAR(36),
+  PRIMARY KEY(Cid)
+)

@@ -1,0 +1,5 @@
+VIEW TrainingService_Roles AS SELECT
+  Roles_0.Rid,
+  Roles_0.Rolename,
+  Roles_0.Description
+FROM schema_Roles AS Roles_0

@@ -1,0 +1,19 @@
+VIEW TrainingService_Enrollments AS SELECT
+  Enrollments_0.createdAt,
+  Enrollments_0.createdBy,
+  Enrollments_0.modifiedAt,
+  Enrollments_0.modifiedBy,
+  Enrollments_0.Enid,
+  Enrollments_0.Enrollmentdate,
+  Enrollments_0.Completiondate,
+  Enrollments_0."SCORE",
+  Enrollments_0.Status,
+  Enrollments_0.Reason,
+  Enrollments_0.Result,
+  Enrollments_0.CertificateNo,
+  Enrollments_0.ExpiryDate,
+  Enrollments_0.expiryCriticality,
+  Enrollments_0.criticality,
+  Enrollments_0.employeeRef_Eid,
+  Enrollments_0.courseRef_Cid
+FROM schema_Enrollments AS Enrollments_0
