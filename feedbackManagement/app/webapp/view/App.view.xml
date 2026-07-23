@@ -1,0 +1,53 @@
+<mvc:View
+    controllerName="ui5.FeedbackManagementSystem.controller.App"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc">
+    <Shell>
+    <App>
+        <Page title="{i18n>title}">
+            <content>
+                <VBox 
+                    class="sapUiMediumMargin"
+                    alignItems="Center">
+                    <Label text="{i18n>name}"/>
+                    <Input
+                        id="nameInput"
+                        placeholder="{i18n>namePlaceholder}"
+                        width="20rem"/>
+                    <Label text="{i18n>email}"/>
+                    <Input
+                        id="emailInput"
+                        type="Email"
+                        placeholder="{i18n>emailPlaceholder}"
+                        width="20rem"/>
+                    <Label text="{i18n>subject}"/>
+                    <Input
+                        id="subjectInput"
+                        placeholder="{i18n>subjectPlaceholder}"
+                        width="20rem"/>
+                    <Label text="{i18n>message}"/>
+                    <TextArea
+                        id="messageInput"
+                        placeholder="{i18n>messagePlaceholder}"
+                        rows="5"
+                        width="20rem"/>
+             <HBox>
+
+        <Button
+            text="{i18n>submit}"
+            press=".onSubmit"
+            type="Emphasized"/>
+
+        <Button
+            text="Cancel"
+            press=".onCancel"
+            type="Reject"
+            class="sapUiSmallMarginBegin"/>
+
+    </HBox>
+                </VBox>
+            </content>
+        </Page>
+    </App>
+    </Shell>
+</mvc:View>
