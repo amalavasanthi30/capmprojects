@@ -1,0 +1,8 @@
+COLUMN TABLE schema_Feedback (
+  Fid NVARCHAR(36) NOT NULL,
+  Rating INTEGER,
+  Comments NVARCHAR(5000),
+  SubmittedAt TIMESTAMP,
+  enrollmentRef_Enid NVARCHAR(36),
+  PRIMARY KEY(Fid)
+)

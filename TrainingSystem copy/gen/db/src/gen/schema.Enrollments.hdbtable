@@ -1,0 +1,20 @@
+COLUMN TABLE schema_Enrollments (
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  Enid NVARCHAR(36) NOT NULL,
+  Enrollmentdate DATE,
+  Completiondate DATE,
+  "SCORE" INTEGER,
+  Status NVARCHAR(5000),
+  Reason NVARCHAR(5000),
+  Result NVARCHAR(5000),
+  CertificateNo NVARCHAR(5000),
+  ExpiryDate DATE,
+  expiryCriticality INTEGER,
+  criticality INTEGER,
+  employeeRef_Eid NVARCHAR(36),
+  courseRef_Cid NVARCHAR(36),
+  PRIMARY KEY(Enid)
+)

@@ -1,0 +1,14 @@
+COLUMN TABLE schema_Employees (
+  Eid NVARCHAR(36) NOT NULL,
+  Empno NVARCHAR(5000),
+  Name NVARCHAR(5000),
+  Email NVARCHAR(5000),
+  Phone NVARCHAR(5000),
+  Joiningdate DATE,
+  Image NVARCHAR(5000),
+  Pincode NVARCHAR(5000),
+  Mapurl NVARCHAR(5000),
+  departmentRef_Did NVARCHAR(36),
+  roleRef_Rid NVARCHAR(36),
+  PRIMARY KEY(Eid)
+)

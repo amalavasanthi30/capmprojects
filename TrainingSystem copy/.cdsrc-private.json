@@ -1,0 +1,61 @@
+{
+  "requires": {
+    "[hybrid]": {
+      "db": {
+        "binding": {
+          "type": "cf",
+          "apiEndpoint": "https://api.cf.us10-001.hana.ondemand.com",
+          "org": "b94ef020trial",
+          "space": "dev",
+          "instance": "TrainingSystem-db",
+          "key": "TrainingSystem-db-key"
+        },
+        "kind": "hana",
+        "vcap": {
+          "name": "db"
+        }
+      },
+      "auth": {
+        "binding": {
+          "type": "cf",
+          "apiEndpoint": "https://api.cf.us10-001.hana.ondemand.com",
+          "org": "b94ef020trial",
+          "space": "dev",
+          "instance": "Training_xsuaa",
+          "key": "Training_xsuaa_key"
+        },
+        "kind": "xsuaa-auth",
+        "vcap": {
+          "name": "auth"
+        }
+      },
+      "destinations": {
+        "binding": {
+          "type": "cf",
+          "apiEndpoint": "https://api.cf.us10-001.hana.ondemand.com",
+          "org": "b94ef020trial",
+          "space": "dev",
+          "instance": "openstreet_instance",
+          "key": "openstreet_key"
+        },
+        "kind": "destinations",
+        "vcap": {
+          "name": "destinations"
+        }
+      },
+      "alert_instance": {
+        "binding": {
+          "type": "cf",
+          "apiEndpoint": "https://api.cf.us10-001.hana.ondemand.com",
+          "org": "b94ef020trial",
+          "space": "dev",
+          "instance": "alert_instance",
+          "key": "alert_key"
+        },
+        "vcap": {
+          "name": "alert_instance"
+        }
+      }
+    }
+  }
+}

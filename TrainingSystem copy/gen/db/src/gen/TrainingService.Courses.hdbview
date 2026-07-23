@@ -1,0 +1,12 @@
+VIEW TrainingService_Courses AS SELECT
+  Courses_0.Cid,
+  Courses_0.Coursecode,
+  Courses_0.Title,
+  Courses_0.Description,
+  Courses_0.Category,
+  Courses_0.Durationhour,
+  Courses_0.Ismandatory,
+  Courses_0.Validitymonth,
+  Courses_0.Maxenrollment,
+  Courses_0.trainingmanagerRef_Tid
+FROM schema_Courses AS Courses_0

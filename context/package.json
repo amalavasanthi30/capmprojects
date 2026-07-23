@@ -1,0 +1,22 @@
+{
+  "name": "context",
+  "version": "1.0.0",
+  "dependencies": {
+    "@sap/cds": "^9",
+    "@sap/xssec": "^4"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^2.4"
+  },
+  "scripts": {
+    "start": "cds-serve"
+  },
+  "private": true,
+  "cds": {
+    "requires": {
+      "[production]": {
+        "auth": "xsuaa"
+      }
+    }
+  }
+}

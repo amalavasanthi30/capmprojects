@@ -1,0 +1,9 @@
+COLUMN TABLE schema_Assessments (
+  Aid NVARCHAR(36) NOT NULL,
+  Assessmentname NVARCHAR(5000),
+  Totalmark INTEGER,
+  MarksObtained INTEGER,
+  Passingmark INTEGER,
+  enrollmentRef_Enid NVARCHAR(36),
+  PRIMARY KEY(Aid)
+)

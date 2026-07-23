@@ -1,0 +1,8 @@
+COLUMN TABLE schema_Notifications (
+  Nid NVARCHAR(36) NOT NULL,
+  Message NVARCHAR(5000),
+  Sentdate TIMESTAMP,
+  Status NVARCHAR(5000),
+  employeeRef_Eid NVARCHAR(36),
+  PRIMARY KEY(Nid)
+)

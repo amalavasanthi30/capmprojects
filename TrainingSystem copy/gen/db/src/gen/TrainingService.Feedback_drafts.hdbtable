@@ -1,0 +1,12 @@
+COLUMN TABLE TrainingService_Feedback_drafts (
+  Fid NVARCHAR(36) NOT NULL,
+  Rating INTEGER NULL,
+  Comments NVARCHAR(5000) NULL,
+  SubmittedAt TIMESTAMP NULL,
+  enrollmentRef_Enid NVARCHAR(36) NULL,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(Fid)
+)

@@ -1,0 +1,7 @@
+VIEW TrainingService_Feedback AS SELECT
+  Feedback_0.Fid,
+  Feedback_0.Rating,
+  Feedback_0.Comments,
+  Feedback_0.SubmittedAt,
+  Feedback_0.enrollmentRef_Enid
+FROM schema_Feedback AS Feedback_0

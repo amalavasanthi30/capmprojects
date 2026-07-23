@@ -1,0 +1,21 @@
+{
+  "xsappname": "context_instance",
+  "tenant-mode": "dedicated",
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.Administrator",
+      "description": "Administrator"
+    }
+  ],
+  "attributes": [],
+  "role-templates": [
+    {
+      "name": "Administrator",
+      "description": "generated",
+      "scope-references": [
+        "$XSAPPNAME.Administrator"
+      ],
+      "attribute-references": []
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+VIEW TrainingService_Departments AS SELECT
+  Departments_0.Did,
+  Departments_0.Deptcode,
+  Departments_0.Deptname
+FROM schema_Departments AS Departments_0
