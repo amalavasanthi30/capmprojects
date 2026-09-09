@@ -1,0 +1,101 @@
+<mvc:View
+    controllerName="studentmanagement.controller.student"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+<App>
+    <Page
+        id="page"
+        title="Student Registration">
+
+        <content>
+
+            <Wizard id="studentWizard">
+
+                <WizardStep
+                    id="personalStep"
+                    title="Personal Details">
+
+                    <VBox class="sapUiSmallMargin">
+
+                        <Label text="Student Name"/>
+
+                        <Input
+                            id="studentName"
+                            placeholder="Enter student name"/>
+
+                        <Label text="Email"/>
+
+                        <Input
+                            id="studentEmail"
+                            type="Email"
+                            placeholder="Enter email"/>
+
+                        <Label text="Phone"/>
+
+                        <Input
+                            id="studentPhone"
+                            placeholder="Enter phone number"/>
+
+                    </VBox>
+
+                </WizardStep>
+
+
+                <WizardStep
+                    id="educationStep"
+                    title="Education Details">
+
+                    <VBox class="sapUiSmallMargin">
+
+                        <Label text="Course"/>
+
+                        <Input
+                            id="course"
+                            placeholder="Enter course"/>
+
+                        <Label text="College"/>
+
+                        <Input
+                            id="college"
+                            placeholder="Enter college"/>
+
+                        <Label text="Year"/>
+
+                        <Input
+                            id="year"
+                            placeholder="Enter passing year"/>
+
+                    </VBox>
+
+                </WizardStep>
+
+
+                <WizardStep
+                    id="reviewStep"
+                    title="Review">
+
+                    <VBox class="sapUiSmallMargin">
+
+                        <Title
+                            text="Review Student Details"/>
+
+                        <Text
+                            text="Please check your information before submitting."/>
+
+                        <Button
+                            text="Submit"
+                            type="Emphasized"
+                            press=".onSubmit"/>
+
+                    </VBox>
+
+                </WizardStep>
+
+            </Wizard>
+
+        </content>
+
+    </Page>
+    </App>
+
+</mvc:View>

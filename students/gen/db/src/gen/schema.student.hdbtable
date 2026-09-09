@@ -1,0 +1,8 @@
+COLUMN TABLE schema_student (
+  id NVARCHAR(5000) NOT NULL,
+  name NVARCHAR(5000),
+  age NVARCHAR(5000),
+  phoneno NVARCHAR(5000),
+  address NVARCHAR(5000),
+  PRIMARY KEY(id)
+)

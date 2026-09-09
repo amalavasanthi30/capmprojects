@@ -1,0 +1,7 @@
+VIEW studentApi_stu AS SELECT
+  student_0.id,
+  student_0.name,
+  student_0.age,
+  student_0.phoneno,
+  student_0.address
+FROM schema_student AS student_0
