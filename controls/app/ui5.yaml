@@ -1,0 +1,17 @@
+specVersion: "4.0"
+metadata:
+  name: ui5.tutorial.walkthrough
+type: application
+server:
+  customMiddleware:
+  - name: ui5-middleware-serveframework
+    afterMiddleware: compression
+  - name: ui5-middleware-livereload
+    afterMiddleware: compression
+framework:
+  name: OpenUI5
+  version: "1.149.1"
+  libraries:
+    - name: sap.m
+    - name: sap.ui.core
+    - name: themelib_sap_horizon
